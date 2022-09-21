@@ -1,9 +1,11 @@
+import { useContext } from "react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { NavButton } from "../tools/hooks"
+import { AppContext, NavButton } from "../tools/hooks"
 
 
-export const Login = ({setUser}) => {
+export const Login = () => {
+  const { user, setUser } = useContext(AppContext)
   const [loginData, setLoginData] = useState({
     username: "",
     password: ""

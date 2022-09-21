@@ -1,6 +1,8 @@
-import { Logout, NavButton } from "../tools/hooks"
+import { useContext } from "react"
+import { AppContext, Logout, NavButton } from "../tools/hooks"
 
-export const Home = ({setUser, user}) => {
+export const Home = () => {
+  const { user, setUser } = useContext(AppContext)
 
   if(user) {
     return(

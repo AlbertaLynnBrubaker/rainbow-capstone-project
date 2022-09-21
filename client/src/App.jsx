@@ -9,21 +9,23 @@ import { NotFound } from './components/NotFound'
 
 import './App.css';
 import { useState } from 'react';
-import { AuthRoute } from './tools/hooks';
+import { AuthRoute, AppContext } from './tools/hooks';
 
 function App() {
-  const [user, setUser] = useState("")
+  const [user, setUser] = useState(AppContext)
+ 
   
   return (
-    <>
-    <Routes>
-      <Route index element= {<AuthRoute setUser={setUser} user={user}><Home setUser={setUser} user= {user}/></AuthRoute>}/>
-      <Route path="/user-:username" element= {<AuthRoute setUser={setUser} user={user}><UserProfile user={user}/></AuthRoute>}/>
-      <Route path="*" element= {<NotFound />}/>  
-      <Route path="/login" element= {<Login setUser= {setUser}/>}/>
-      <Route path="/signup" element= {<Signup />}/>
-    </Routes>
-    </>
+    
+    <AppContext.Provider value= {{ user, setUser }} >
+      <Routes>
+        <Route index element= {<AuthRoute><Home /></AuthRoute>}/>
+        <Route path="/user-:username" element= {<AuthRoute ><UserProfile /></AuthRoute>}/>
+        <Route path="*" element= {<NotFound />}/>  
+        <Route path="/login" element= {<Login />}/>
+        <Route path="/signup" element= {<Signup />}/>
+      </Routes>
+    </AppContext.Provider>
   );
 }
 

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, createContext, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const NavButton = ({path = "/", text = "Back"}) => {
@@ -10,6 +10,8 @@ export const NavButton = ({path = "/", text = "Back"}) => {
     </button>
   )
 }
+
+export const AppContext = createContext("")
 
 export const Logout = ({setUser}) => {
 
@@ -30,7 +32,8 @@ export const Logout = ({setUser}) => {
   )
 }
 
-export const AuthRoute = ({children, setUser}) => {
+export const AuthRoute = ({children}) => {
+  const {user, setUser} = useContext(AppContext)
   const nav = useNavigate()
 
   useEffect(() => {
