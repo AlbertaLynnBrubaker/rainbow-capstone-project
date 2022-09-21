@@ -12,7 +12,7 @@ import { useState } from 'react';
 import { AuthRoute, AppContext } from './tools/hooks';
 
 function App() {
-  const [user, setUser] = useState(AppContext)
+  const [user, setUser] = useState("")
  
   
   return (
