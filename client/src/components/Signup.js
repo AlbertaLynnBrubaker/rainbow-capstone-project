@@ -94,7 +94,6 @@ export const Signup = () => {
         <input type="password" name="password_confirmation"/>
         <input type="submit"/>
       </form>
-      <NavButton />
     </>
   )
 }
