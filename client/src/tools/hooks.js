@@ -1,4 +1,4 @@
-import { useEffect, createContext, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const NavButton = ({path = "/", text = "Back"}) => {
@@ -11,10 +11,19 @@ export const NavButton = ({path = "/", text = "Back"}) => {
   )
 }
 
-export const AppContext = createContext("")
+export const UserContext = React.createContext()
 
-export const Logout = ({setUser}) => {
+export const UserProvider = ({children}) => {
+  const [user, setUser] = useState("")
+  return (
+    <UserContext.Provider value= {{user, setUser}}>
+      {children}
+    </UserContext.Provider>
+  )
+}
 
+export const Logout = () => {
+  const { user, setUser } = useContext(UserContext)
   const nav = useNavigate()
   
   const handleLogout = () => {
@@ -33,7 +42,7 @@ export const Logout = ({setUser}) => {
 }
 
 export const AuthRoute = ({children}) => {
-  const {user, setUser} = useContext(AppContext)
+  const {user, setUser} = useContext(UserContext)
   const nav = useNavigate()
 
   useEffect(() => {
@@ -44,7 +53,9 @@ export const AuthRoute = ({children}) => {
             setUser(user)
           })
         } else {
-          nav('/login')
+          r.json().then(errors => {
+            console.error(errors)
+          })
         }
       })
   }, [])

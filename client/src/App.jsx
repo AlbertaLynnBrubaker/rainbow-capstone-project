@@ -6,18 +6,16 @@ import { Login } from './components/Login'
 import { Signup } from './components/Signup'
 import { UserProfile } from './components/UserProfile'
 import { NotFound } from './components/NotFound'
+import { Navigation } from './components/Navigation';
 
 import './App.css';
-import { useState } from 'react';
-import { AuthRoute, AppContext } from './tools/hooks';
+import { AuthRoute, UserProvider } from './tools/hooks';
 
 function App() {
-  const [user, setUser] = useState("")
- 
   
-  return (
-    
-    <AppContext.Provider value= {{ user, setUser }} >
+  return (    
+    <UserProvider >
+      <Navigation />
       <Routes>
         <Route index element= {<AuthRoute><Home /></AuthRoute>}/>
         <Route path="/user-:username" element= {<AuthRoute ><UserProfile /></AuthRoute>}/>
@@ -25,7 +23,7 @@ function App() {
         <Route path="/login" element= {<Login />}/>
         <Route path="/signup" element= {<Signup />}/>
       </Routes>
-    </AppContext.Provider>
+    </UserProvider>
   );
 }
 

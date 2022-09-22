@@ -1,16 +1,18 @@
 import { useContext } from "react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { AppContext, NavButton } from "../tools/hooks"
+import { UserContext } from "../tools/hooks"
 
 
 export const Login = () => {
-  const { user, setUser } = useContext(AppContext)
+  const { user, setUser } = useContext(UserContext)
   const [loginData, setLoginData] = useState({
     username: "",
     password: ""
   })
   const [errors, setErrors] = useState([])
+
+  console.log(user)
 
   const navigate = useNavigate()
 
@@ -50,7 +52,6 @@ export const Login = () => {
         <input type="password" name="password" onChange={handleLogin}/>
         <input type="submit" />
       </form>
-      <NavButton path="/signup" text="Signup" />
     </>
   )
 }

@@ -1,6 +1,6 @@
 import { useContext, useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
-import { AppContext, Logout, NavButton } from "../tools/hooks"
+import { UserContext } from "../tools/hooks"
 
 // Testing purposes
 const style = {
@@ -11,10 +11,10 @@ const style = {
 }
 
 export const Home = () => {
-  const { user, setUser } = useContext(AppContext)
+  const { user, setUser } = useContext(UserContext)
   // Testing purposes
   const [test, setTest] = useState({
-    items: Array.from({ length: 50 })
+    items: Array.from({ length: 30 })
   })
   const [hasMore, setHasMore] = useState(true)
 
@@ -24,7 +24,7 @@ export const Home = () => {
     }
     setTimeout(() => {
       setTest({
-        items: test.items.concat(Array.from({ length: 50 }))
+        items: test.items.concat(Array.from({ length: 20 }))
       });
     }, 500)
   }
@@ -33,8 +33,6 @@ export const Home = () => {
     return(
       <>
         <h1>Home</h1>
-        <NavButton path={`/user-${user.username.toLowerCase()}`} text={`Your Profile`}/>
-        <Logout setUser={setUser} />
         <InfiniteScroll dataLength={test.items.length}
         next={fetchMore}
         hasMore={hasMore}
@@ -50,18 +48,5 @@ export const Home = () => {
         ))}</InfiniteScroll>        
       </>
     )
-  } else if (!user) {
-  return (
-    <>
-      <h1>Home</h1>
-      <NavButton path="/login" text="Login" />
-      <NavButton path="/signup" text="Signup" />
-    </>
-  )}
-
-  return(
-    <div>
-      <h1>Content Go Boom!</h1>
-    </div>
-  )
+  }
 }
