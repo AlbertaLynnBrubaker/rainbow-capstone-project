@@ -14,24 +14,9 @@ export const Signup = () => {
 
   const navigate = useNavigate()
 
-  // const handleSignup = (e) => {
-  //   setSignupData({...signupData,
-  //     [e.target.name]: e.target.value
-  //   })
-  // }
-
-  // const handleSignupAvatar = (e) => {
-  //   console.log(e.target.value)
-  //   return e.target.value
-  // }
-
-  // console.log(signupData)
-
   const handleSignupSubmit = (e) => {
     e.preventDefault()
     const data = new FormData()
-
-    console.log(e.target.username.value, e.target.email.value, e.target.password.value, e.target.password_confirmation.value, e.target.avatar.files[0])
 
     data.append('user[username]', e.target.username.value)
     data.append('user[email]', e.target.email.value)

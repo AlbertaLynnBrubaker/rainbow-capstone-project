@@ -7,6 +7,7 @@ class UsersController < ApplicationController
 
   def create
     user = User.create(user_params)
+    byebug
     if user.valid?
       session[:user_id] = user.id
       render json: UserSerializer.new(user).serializable_hash[:data][:attributes], status: :created
