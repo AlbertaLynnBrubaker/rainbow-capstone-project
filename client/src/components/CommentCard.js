@@ -10,7 +10,6 @@ const style = {
 }
 
 export const CommentCard = ({data}) => {
-  console.log(data)
   return (
     <div>
       <h4>{data.user.full_name}</h4>

@@ -3,13 +3,6 @@ import { useNavigate } from "react-router-dom"
 import { NavButton } from "../tools/hooks"
 
 export const Signup = () => {
-  const [signupData, setSignupData] = useState({
-    username: "",
-    email: "",
-    avatar: null,
-    password: "",
-    password_confirmation: "",
-  })
   const [errors, setErrors] = useState([])
 
   const navigate = useNavigate()
@@ -50,20 +43,6 @@ export const Signup = () => {
 
   return (
     <>
-      {/* <form onSubmit={handleSignupSubmit}>
-        {errors ? errors.map(e => <section>{e}</section>) : null}
-        <label htmlFor="username">Username:</label>
-        <input type="text" name="username" onChange={handleSignup}/>
-        <label htmlFor="email">Email:</label>
-        <input type="text" name="email" onChange={handleSignup}/>
-        <label htmlFor="avatar">Avatar:</label>
-        <input type="file" name="avatar" onChange={handleSignupAvatar}/>
-        <label htmlFor="password">Password:</label>
-        <input type="password" name="password" onChange={handleSignup}/>
-        <label htmlFor="password_confirmation">Confirm Password:</label>
-        <input type="password" name="password_confirmation" onChange={handleSignup}/>
-        <input type="submit"/>
-      </form> */}
       {errors ? errors.map(e => <section>{e}</section>) : null}
       <form onSubmit={handleSignupSubmit}>
         

@@ -2,21 +2,22 @@ import { useContext, useEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
 import { NavButton, UserContext } from "../tools/hooks"
 import { PostCard } from "./PostCard"
+// import { EditPostCard } from "./EditPostCard"
 
 let page = 0
 
 export const Home = () => {
   const { user, setUser } = useContext(UserContext)
+  const [ errors, setErrors ] = useState([])
   const [posts, setPosts] = useState([])
   const [postLength, setPostLength] = useState(10)
   const [hasMore, setHasMore] = useState(true)
 
   useEffect(() => {
-    fetch(`/posts?page=0`)
+    fetch(`/posts?page=${page}`)
       .then(r => {
         if(r.ok) {
           r.json().then(data => {
-            console.log(data.posts, data.length)
             setPosts(data.posts)
             setPostLength(data.length)     
           })        
@@ -42,42 +43,90 @@ export const Home = () => {
   }
 
 
-  const handlePostSubmit = () => {
+  const handlePostSubmit = (e) => {
+    e.preventDefault()
+    const data = new FormData()
 
+    data.append('post[content]', e.target.content.value)
+    data.append('post[user_id]', user.id)
+    if(e.target.image.files[0]) {
+      data.append('post[image]', e.target.image.files[0])
+    }
+    submitToAPI(data)
   }
 
-  // const handleSignupSubmit = (e) => {
-  //   e.preventDefault()
-  //   const data = new FormData()
+  const submitToAPI = (data) => {    
+    
+    fetch('/posts', {
+      method: 'POST',
+      body: data
+    })
+      .then(r => { 
+      if(r.ok) {
+        r.json().then(post => {          
+          setPosts(posts => [post, ...posts])
+        })
+      } else {
+        r.json().then(data => setErrors(data.errors))
+      }
+    })
+  }
 
-  //   data.append('user[username]', e.target.username.value)
-  //   data.append('user[email]', e.target.email.value)
-  //   data.append('user[password]', e.target.password.value)
-  //   data.append('user[password_confirmation]', e.target.password_confirmation.value)
-  //   data.append('user[avatar]', e.target.avatar.files[0])
-  //   console.log(data)
-  //   submitToAPI(data)
-  // }
+  const handleEditPost = () => {
+    
+  }
 
-  if(user) {
+  const handleDeletePost = (post_id) => {
+    fetch(`/posts/${post_id}`, {
+      method: 'DELETE'
+    })
+      .then(() => {
+        if(page >= 0) {
+          page = page - 1
+        } else {
+          page = 0
+        }
+        console.log(posts)
+        setPosts(posts => posts.filter(p => post_id === !p.id))
+      })
+  }
+
+  const topFunction = () => {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
+
+  console.log(posts,page)
+  
     return(
       <>
         <h1>Home</h1>
-        <form onSubmit={handlePostSubmit}>        
+        {user ? <form onSubmit={handlePostSubmit}>        
           <textarea type="text" name="content" placeholder='Make a new post...' />
+          <br/>          
+          <input type="file" name="image" />
           <br/>
           <button type="submit">Make Post</button>
-        </form>
+        </form> : null}
         <InfiniteScroll dataLength={posts.length}
         next={fetchMore}
         hasMore={hasMore}
         loader={<h4>Loading...</h4>}
         endMessage={
-          <NavButton path="/" text="Back to top" />
-        }>{posts.map(post => (
-          <PostCard key={post.id} post= {post} />
+          <button onClick={topFunction}>Back to top</button>
+        }>{posts.map(post => (          
+          <>
+            <PostCard key={post.id} post= {post} posts={posts} setPosts={setPosts} />
+            {post.user.id === user.id ?
+              <>
+                <button>Edit Post</button>
+                <button onClick={() => handleDeletePost(post.id)}>Remove Post</button>
+              </>
+            :
+            null
+            }            
+          </>
         ))}</InfiniteScroll>        
       </>
     )
-  }
 }

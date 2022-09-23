@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+  skip_before_action :authenticate_user, only: :index
 
   def index
     # byebug
@@ -10,15 +11,28 @@ class PostsController < ApplicationController
     render json: data, status: :ok
   end
 
-  def create
+  def create    
     post = Post.create(post_params)
+    # byebug
     render json: PostSerializer.new(post).serializable_hash[:data][:attributes], status: :created
+  end
+
+  def update
+    post = Post.find(params[:id])
+    post.update(post_params)
+    reder json: PostSerializer.new(post).serializable_hash[:data][:attributes], status: :accepted
+  end
+
+  def destroy
+    post = Post.find(params[:id])
+    post.destroy
+    head :no_content
   end
 
   private
 
   def post_params
-    params.permit(:content, :user_id, :images, :page)
+    params.require(:post).permit(:content, :user_id, :image, :page, :user, :user_avatar)
   end
 
 end
