@@ -1,12 +1,13 @@
 class UsersController < ApplicationController
   skip_before_action :authenticate_user, only: :create
 
-  def show
+  def me
     render json: UserSerializer.new(current_user).serializable_hash[:data][:attributes], status: :ok
   end
 
   def create
     user = User.create(user_params)
+    byebug
     if user.valid?
       session[:user_id] = user.id
       render json: UserSerializer.new(user).serializable_hash[:data][:attributes], status: :created

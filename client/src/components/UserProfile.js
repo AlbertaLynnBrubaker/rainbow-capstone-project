@@ -1,9 +1,9 @@
 import { useContext } from "react"
-import { AppContext, NavButton } from "../tools/hooks"
+import { UserContext, NavButton } from "../tools/hooks"
 
 
 export const UserProfile = () => {
-  const { user, setUser } = useContext(AppContext)
+  const { user, setUser } = useContext(UserContext)
 
   console.log(user)
   return (
