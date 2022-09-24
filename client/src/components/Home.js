@@ -1,13 +1,12 @@
 import { useContext, useEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
-import { NavButton, UserContext } from "../tools/hooks"
+import { UserContext } from "../tools/hooks"
 import { PostCard } from "./PostCard"
-import { EditPostCard } from "./ToggleEditPost"
 
 let page = 0
 
 export const Home = () => {
-  const { user, setUser } = useContext(UserContext)
+  const { user } = useContext(UserContext)
   const [ errors, setErrors ] = useState([])
   const [posts, setPosts] = useState([])
   const [postLength, setPostLength] = useState(10)
@@ -27,6 +26,7 @@ export const Home = () => {
   }, [])
 
   const fetchMore = () => {
+    console.log(posts.length, postLength)
     if (posts.length >= postLength) {
       return setHasMore(false)
     }

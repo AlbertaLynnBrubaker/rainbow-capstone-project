@@ -8,11 +8,11 @@ class ApplicationController < ActionController::API
   private
 
   def render_not_found not_found
-    render json: {errors: not_found.message}, status: :not_foun
+    render json: {errors: not_found.message}, status: :not_found
   end
 
   def render_invalid invalid
-    render json: {errors: invalid.record.errors.full_messages}
+    render json: {errors: invalid.record.errors.full_messages}, status: :unprocessable_entity
   end
 
   def current_user

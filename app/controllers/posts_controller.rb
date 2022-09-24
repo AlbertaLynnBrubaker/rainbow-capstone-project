@@ -18,18 +18,22 @@ class PostsController < ApplicationController
   end
 
   def update
-    post = Post.find(params[:id])
+    post = find_post
     post.update(post_params)
     render json: PostSerializer.new(post).serializable_hash[:data][:attributes], status: :accepted
   end
 
   def destroy
-    post = Post.find(params[:id])
+    post = find_post
     post.destroy
     head :no_content
   end
 
   private
+
+  def find_post
+    Post.find(params[:id])
+  end
 
   def post_params
     params.require(:post).permit(:content, :user_id, :image, :page, :user, :user_avatar)

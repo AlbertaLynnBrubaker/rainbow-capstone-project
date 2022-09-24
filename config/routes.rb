@@ -1,11 +1,12 @@
 Rails.application.routes.draw do
-  resources :comments
+  resources :comments, only: [:create, :update, :destroy]
   resources :posts
   resources :users, only: [:update, :destroy]
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
   post '/signup', to: 'users#create'
   get '/me', to: 'users#me'
+  get '/posts/:post_id/comments', to: 'comments#index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

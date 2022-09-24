@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react'
 import { UserContext } from '../tools/hooks'
-import { CommentCard } from './CommentCard'
 
 //temp avatar styling
 const style = {
@@ -21,14 +20,9 @@ const imageStyle = {
 }
 
 export const ToggleEditPost = ({ post, setPosts, isEditPost, setIsEditPost }) => {
-    const { user, setUser } = useContext(UserContext)
+    const { user } = useContext(UserContext)
     const [ postContent, setPostContent ] = useState(post.content)
     const [errors, setErrors] = useState([])
-    const [isCommentClicked, setIsCommentClicked] = useState(false)
-
-  const handleCommentClick = () => {
-    setIsCommentClicked(!isCommentClicked)
-  }
 
   const handleContentChange = (e) => {
     setPostContent(e.target.value)
@@ -77,7 +71,7 @@ export const ToggleEditPost = ({ post, setPosts, isEditPost, setIsEditPost }) =>
         <img src={post.user_avatar} style={style} alt="user avatar" />
         <form onSubmit={handlePatchSubmit}>
           <textarea name="content" value={postContent} onChange={handleContentChange} />
-          {post.image_url ? <img src={post.image_url} alt="post image" style={imageStyle} /> : null}
+          {post.image_url ? <img src={post.image_url} alt="post" style={imageStyle} /> : null}
           <input type="file" name="image" />
           <button type='submit'>Edit Post</button>
         </form>
@@ -90,7 +84,7 @@ export const ToggleEditPost = ({ post, setPosts, isEditPost, setIsEditPost }) =>
         <h1>{post.user.full_name}</h1>
         <img src={post.user_avatar} style={style} alt="user avatar" />
         <h4>{post.content}</h4>
-        {post.image_url ? <img src={post.image_url} alt="post image" style={imageStyle} /> : null}       
+        {post.image_url ? <img src={post.image_url} alt="post" style={imageStyle} /> : null}       
       </>
     )
   }
