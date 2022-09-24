@@ -20,7 +20,7 @@ class PostsController < ApplicationController
   def update
     post = Post.find(params[:id])
     post.update(post_params)
-    reder json: PostSerializer.new(post).serializable_hash[:data][:attributes], status: :accepted
+    render json: PostSerializer.new(post).serializable_hash[:data][:attributes], status: :accepted
   end
 
   def destroy

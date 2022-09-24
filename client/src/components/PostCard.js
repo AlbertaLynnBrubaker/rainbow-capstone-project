@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { UserContext } from '../tools/hooks'
 import { CommentCard } from './CommentCard'
+import { ToggleEditPost } from './ToggleEditPost'
 
 
 //temp avatar styling
@@ -20,26 +22,43 @@ const imageStyle = {
   marginLeft: 6
 }
 
-export const PostCard = ({post}) => {
+export const PostCard = ({post, setPosts, handleDeletePost}) => {
+  const { user, setUser } = useContext(UserContext)
+  const [isEditPost, setIsEditPost] = useState(false)
   const [isCommentClicked, setIsCommentClicked] = useState(false)
 
   const handleCommentClick = () => {
     setIsCommentClicked(!isCommentClicked)
   }
 
+  const handleEditPost = (e) => {
+    setIsEditPost(!isEditPost)
+  }
+
   return (
     <div>      
-      <h1>{post.user.full_name}</h1>
-      <img src={post.user_avatar} style={style} alt="user avatar" />
-      <h4>{post.content}</h4>
-      {post.image_url ? <img src={post.image_url} alt="post image" style={imageStyle} /> : null}
+      <ToggleEditPost post={post} setPosts={setPosts} isEditPost={isEditPost} setIsEditPost={setIsEditPost}/>
       <br/>
+      {post.user.id === user.id ?
+        <>
+          {isEditPost ? null: <button onClick={handleEditPost}>Edit Post</button>}
+          <button onClick={() => handleDeletePost(post.id)}>Remove Post</button>
+        </>
+        :
+        null
+      }
       
     {isCommentClicked ?
-      <div>{post.comments_data.map( data => <CommentCard key={data.comment.id} data={data} />)}</div> :
+      <div>{post.comments_data.map( data => 
+        <CommentCard key={data.comment.id} data={data} />
+      )}</div> :
       <div>
-        {post.comments_data[0]? <CommentCard data={post.comments_data[0]} /> : null}
-        <button onClick={ handleCommentClick }>View more comments</button>
+        {post.comments_data[0]? 
+        <>
+          <CommentCard data={post.comments_data[0]} /> 
+          <button onClick={ handleCommentClick }>View more comments</button>
+        </>: 
+        null}        
       </div>    
     }
     </div>

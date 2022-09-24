@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
 import { NavButton, UserContext } from "../tools/hooks"
 import { PostCard } from "./PostCard"
-// import { EditPostCard } from "./EditPostCard"
+import { EditPostCard } from "./ToggleEditPost"
 
 let page = 0
 
@@ -12,6 +12,7 @@ export const Home = () => {
   const [posts, setPosts] = useState([])
   const [postLength, setPostLength] = useState(10)
   const [hasMore, setHasMore] = useState(true)
+  
 
   useEffect(() => {
     fetch(`/posts?page=${page}`)
@@ -72,10 +73,6 @@ export const Home = () => {
     })
   }
 
-  const handleEditPost = () => {
-    
-  }
-
   const handleDeletePost = (post_id) => {
     fetch(`/posts/${post_id}`, {
       method: 'DELETE'
@@ -96,8 +93,6 @@ export const Home = () => {
     document.documentElement.scrollTop = 0;
   }
 
-  console.log(posts,page)
-  
     return(
       <>
         <h1>Home</h1>
@@ -114,19 +109,14 @@ export const Home = () => {
         loader={<h4>Loading...</h4>}
         endMessage={
           <button onClick={topFunction}>Back to top</button>
-        }>{posts.map(post => (          
-          <>
-            <PostCard key={post.id} post= {post} posts={posts} setPosts={setPosts} />
-            {post.user.id === user.id ?
-              <>
-                <button>Edit Post</button>
-                <button onClick={() => handleDeletePost(post.id)}>Remove Post</button>
-              </>
-            :
-            null
-            }            
+        }>{posts.map(post => {
+          
+          return (
+          <>            
+            <PostCard key={post.id} post= {post} posts={posts} setPosts={setPosts} handleDeletePost={handleDeletePost} />
           </>
-        ))}</InfiniteScroll>        
+          )}
+        )}</InfiniteScroll>        
       </>
     )
 }
