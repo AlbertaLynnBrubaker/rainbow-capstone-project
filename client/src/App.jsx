@@ -17,7 +17,7 @@ function App() {
     <UserProvider >
       <Navigation />
       <Routes>
-        <Route index element= {<AuthRoute><Home /></AuthRoute>}/>
+        <Route index element= {<AuthRoute><Home /></AuthRoute>} />
         <Route path="/user-:username" element= {<AuthRoute ><UserProfile /></AuthRoute>}/>
         <Route path="*" element= {<NotFound />}/>  
         <Route path="/login" element= {<Login />}/>

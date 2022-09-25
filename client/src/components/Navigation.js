@@ -15,6 +15,7 @@ export const Navigation = () => {
   )} else if (!user) {
     return (
       <>
+        <NavButton path="/" text= "Home" />
         <NavButton path="/login" text="Login" />
         <NavButton path="/signup" text="Signup" />
       </>

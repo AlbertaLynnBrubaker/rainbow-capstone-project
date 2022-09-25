@@ -1,6 +1,6 @@
 class Post < ApplicationRecord
   belongs_to :user
-  has_many :comments
+  has_many :comments, dependent: :destroy
 
   has_one_attached :image
 
@@ -19,7 +19,7 @@ class Post < ApplicationRecord
 
   def comments_data
     comments = self.comments.order(:created_at)
-    comments = comments.map do |c| {comment: c, user: c.user, user_avatar: commenter_avatar(c.user.id)} end
+    comments = comments.map do |c| {comment: c, comment_image: c.comment_image, comment_image_url: c.comment_image_url, user: c.user, user_avatar: commenter_avatar(c.user.id)} end
   end
 
 end
