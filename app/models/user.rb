@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_one_attached :avatar
 
   validates :username, :email, :password, :password_confirmation, presence: true
+  validates :username, uniqueness: true
   # validates :password, length: {minimum: 8}
 
   def avatar_url

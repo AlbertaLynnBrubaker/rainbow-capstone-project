@@ -75,9 +75,7 @@ export const EditComment = ({comment, setComments, isEditComment, setIsEditComme
         {comment.comment_image_url ? <img src={comment.comment_image_url} alt="post" style={imageStyle} /> : null}
         <input type="file" name="comment_image" />
         <button type='submit'>Edit Comment</button>
-      </form>
-      {/* <h5>{comment.comment.content}</h5>
-      {comment.comment_image_url ? <img src={comment.comment_image_url} alt="comment" style={imageStyle} /> : null} */}
+      </form>      
       {comment.user.id === user.id ?
         <>          
           <button onClick={handleDeleteComment}>Remove Comment</button>

@@ -9,13 +9,15 @@ export const Navigation = () => {
     return (
       <div>
         <NavButton path="/" text= "Home" />
-        <NavButton path={`/user-${user.username.toLowerCase()}`} text={`Your Profile`}/>
+        <NavButton path={`/${user.username}`} text="Your Wall" />
+        <NavButton path={`/${user.username}/profile`} text={`Your Profile`}/>
         <Logout />
       </div>
   )} else if (!user) {
     return (
       <>
         <NavButton path="/" text= "Home" />
+        
         <NavButton path="/login" text="Login" />
         <NavButton path="/signup" text="Signup" />
       </>

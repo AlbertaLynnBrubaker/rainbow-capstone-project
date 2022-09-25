@@ -5,7 +5,6 @@ import { UserContext, NavButton } from "../tools/hooks"
 export const UserProfile = () => {
   const { user, setUser } = useContext(UserContext)
 
-  console.log(user)
   return (
     <>
       <h1>UserProfile</h1>

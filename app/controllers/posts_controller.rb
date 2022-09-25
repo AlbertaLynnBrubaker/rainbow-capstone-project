@@ -1,14 +1,18 @@
 class PostsController < ApplicationController
-  skip_before_action :authenticate_user, only: :index
+  skip_before_action :authenticate_user, only: [:index, :wall]
 
   def index
     # byebug
     posts = Post.order(created_at: :desc).offset(Integer(params[:page]) * 10).limit(10)
-    post_map = posts.map { |post|
-      PostSerializer.new(post).serializable_hash[:data][:attributes]
-    }
-    data = {posts: post_map, length: Post.all.length}
-    render json: data, status: :ok
+    length = Post.all.length
+    render json: post_map_data(posts, length), status: :ok
+  end
+
+  def wall
+    user = User.find_by(username: params[:username])
+    posts = user.posts.order(created_at: :desc).offset(Integer(params[:page]) * 10).limit(10)
+    length = user.posts.length
+    render json: post_map_data(posts, length), status: :ok
   end
 
   def create    
@@ -33,6 +37,13 @@ class PostsController < ApplicationController
 
   def find_post
     Post.find(params[:id])
+  end
+
+  def post_map_data(posts, length)
+    post_map = posts.map { |post|
+      PostSerializer.new(post).serializable_hash[:data][:attributes]
+    }
+    data = {posts: post_map, length: length}
   end
 
   def post_params
