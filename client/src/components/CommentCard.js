@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../tools/hooks'
+import { EditComment } from './EditComment'
 
 //temp image styling
 const style = {
@@ -19,7 +20,7 @@ const imageStyle = {
   marginLeft: 6
 }
 
-export const CommentCard = ({comment, onDeleteComment}) => {
+export const CommentCard = ({comment, setComments, onDeleteComment}) => {
   const { user } = useContext(UserContext)
   
   const [ isEditComment, setIsEditComment ] = useState(false)
@@ -37,20 +38,24 @@ export const CommentCard = ({comment, onDeleteComment}) => {
       })
   }
 
-  return (
-    <div>
-      <h4>{comment.user.full_name}</h4>
-      <img src= {comment.user_avatar} alt="user avatar" style={style}/>
-      <h5>{comment.comment.content}</h5>
-      {comment.comment_image_url ? <img src={comment.comment_image_url} alt="comment" style={imageStyle} /> : null}
-      {comment.user.id === user.id ?
-        <>
-          {isEditComment ? null: <button onClick={handleEditComment}>Edit Comment</button>}
-          <button onClick={handleDeleteComment}>Remove Comment</button>
-        </>
-        :
-        null
-      }
-    </div>
-  )
+  if(isEditComment) {
+    return <EditComment comment={comment} setComments={setComments}  isEditComment={isEditComment} setIsEditComment={setIsEditComment} handleDeleteComment={handleDeleteComment}/>
+  } else {
+    return (
+      <div>
+        <h4>{comment.user.full_name}</h4>
+        <img src= {comment.user_avatar} alt="user avatar" style={style}/>
+        <h5>{comment.comment.content}</h5>
+        {comment.comment_image_url ? <img src={comment.comment_image_url} alt="comment" style={imageStyle} /> : null}
+        {comment.user.id === user.id ?
+          <>
+            {isEditComment ? null: <button onClick={handleEditComment}>Edit Comment</button>}
+            <button onClick={handleDeleteComment}>Remove Comment</button>
+          </>
+          :
+          null
+        }
+      </div>
+    )
+  }
 }
