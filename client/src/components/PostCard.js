@@ -114,7 +114,7 @@ export const PostCard = ({post, setPosts, handleDeletePost}) => {
         <div>
           {comments[0]? 
           <>
-            <CommentCard key={comments[0].id} comment={comments[0]} /> 
+            <CommentCard key={comments[0].id} comment={comments[0]} onDeleteComment={onDeleteComment} /> 
             {isCommentClicked ? null : <button onClick={ handleCommentClick }>View more comments</button>}
           </>: 
           null}        
