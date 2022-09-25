@@ -1,25 +1,31 @@
 import { useContext, useEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
+import { useParams } from "react-router-dom"
 import { UserContext } from "../tools/hooks"
 import { PostCard } from "./PostCard"
 
 let page = 0
 
-export const Home = () => {
+export const UserWall = () => {
   const { user } = useContext(UserContext)
   const [ errors, setErrors ] = useState([])
   const [posts, setPosts] = useState([])
   const [postLength, setPostLength] = useState(10)
+  const [bannerName, setBannerName] = useState("")
   const [hasMore, setHasMore] = useState(true)
   
 
+  const params = useParams()
+
   useEffect(() => {
-    fetch(`/posts?page=${page}`)
+    fetch(`/${params.username}?page=${page}`)
       .then(r => {
         if(r.ok) {
           r.json().then(data => {
+            console.log(data.posts)
             setPosts(data.posts)
-            setPostLength(data.length)     
+            setPostLength(data.length)
+            setBannerName(data.posts[0].user.full_name.split(' ')[0])   
           })        
         }
       })
@@ -30,8 +36,8 @@ export const Home = () => {
       return setHasMore(false)
     }
     setTimeout(() => {     
-      page = page + 1 
-      fetch(`/posts?page=${page}`)
+      page = page + 1  
+      fetch(`/${params.username}?page=${page}`)
       .then(r => {
         if(r.ok) {
           r.json().then(data => {            
@@ -91,27 +97,30 @@ export const Home = () => {
     document.documentElement.scrollTop = 0;
   }
 
-    return(
-      <>
-        <h1>Home</h1>
-        {user ? <form onSubmit={handlePostSubmit}>        
-          <textarea type="text" name="content" placeholder='Make a new post...' />
-          <br/>          
-          <input type="file" name="image" />
-          <br/>
-          <button type="submit">Make Post</button>
-        </form> : null}
-        <InfiniteScroll dataLength={posts.length}
-        next={fetchMore}
-        hasMore={hasMore}
-        loader={<h4>Loading...</h4>}
-        endMessage={
-          <button onClick={topFunction}>Back to top</button>
-        }
-        >{posts.map(post => {          
-            return <PostCard key={post.id} post= {post} posts={posts} setPosts={setPosts} handleDeletePost={handleDeletePost} />          
-          }
-        )}</InfiniteScroll>        
-      </>
-    )
+  return(
+    <>
+      <h1>{`${bannerName}'s Agenda`}</h1>
+      {user ? <form onSubmit={handlePostSubmit}>        
+        <textarea type="text" name="content" placeholder='Make a new post...' />
+        <br/>          
+        <input type="file" name="image" />
+        <br/>
+        <button type="submit">Make Post</button>
+      </form> : null}
+      <InfiniteScroll dataLength={posts.length}
+      next={fetchMore}
+      hasMore={hasMore}
+      loader={<h4>Loading...</h4>}
+      endMessage={
+        <button onClick={topFunction}>Back to top</button>
+      }>{posts.map(post => {
+        
+        return (
+        <>            
+          <PostCard key={post.id} post= {post} posts={posts} setPosts={setPosts} handleDeletePost={handleDeletePost} />
+        </>
+        )}
+      )}</InfiniteScroll>        
+    </>
+  )
 }
