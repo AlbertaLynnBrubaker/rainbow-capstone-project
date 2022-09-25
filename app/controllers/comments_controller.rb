@@ -12,7 +12,7 @@ class CommentsController < ApplicationController
   end
 
   def create    
-    comment = Comment.create(comment_params)
+    comment = Comment.create!(comment_params)
     render json: CommentSerializer.new(comment).serializable_hash[:data][:attributes], status: :created
   end
 

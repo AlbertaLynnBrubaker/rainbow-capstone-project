@@ -85,6 +85,15 @@ export const PostCard = ({post, setPosts, handleDeletePost}) => {
     setComments(newComments)
   }
 
+  const singleCommentHideButton = () => {
+    if(isCommentClicked || comments.length <= 1) {
+      return null
+    } else {
+      return <button onClick={ handleCommentClick }>View more comments</button>
+    }
+  }
+  const hideComment = singleCommentHideButton()
+
   return (
     <div>      
       <ToggleEditPost post={post} setPosts={setPosts} isEditPost={isEditPost} setIsEditPost={setIsEditPost}/>
@@ -108,16 +117,18 @@ export const PostCard = ({post, setPosts, handleDeletePost}) => {
       }      
       {isCommentClicked ?
         <div>{comments.map( comment => {
-          return <CommentCard key={comment.id} comment={comment} onDeleteComment={onDeleteComment} />
+          return <CommentCard key={comment.id} comment={comment} setComments={setComments} onDeleteComment={onDeleteComment} />
         }
         )}</div> :
         <div>
           {comments[0]? 
-          <>
-            <CommentCard key={comments[0].id} comment={comments[0]} onDeleteComment={onDeleteComment} /> 
-            {isCommentClicked ? null : <button onClick={ handleCommentClick }>View more comments</button>}
-          </>: 
-          null}        
+            <>
+              <CommentCard key={comments[0].id} comment={comments[0]} setComments={setComments} onDeleteComment={onDeleteComment} /> 
+              {hideComment}            
+            </>
+          : 
+            null
+          }        
         </div>    
       }
     </div>
