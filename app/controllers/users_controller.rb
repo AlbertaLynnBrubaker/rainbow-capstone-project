@@ -1,8 +1,14 @@
 class UsersController < ApplicationController
-  skip_before_action :authenticate_user, only: [:create]
+  skip_before_action :authenticate_user, only: [:create, :background]
 
   def me
     render json: UserSerializer.new(current_user).serializable_hash[:data][:attributes], status: :ok
+  end
+
+  def background    
+    bg = User.find_by(username: 'background')
+    background_url = {background_url: bg.avatar_url}
+    render json: background_url, status: :ok
   end
 
   def create
