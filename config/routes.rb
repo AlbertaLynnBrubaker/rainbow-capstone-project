@@ -5,9 +5,11 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
   post '/signup', to: 'users#create'
+  get '/background', to: 'users#background'
   get '/me', to: 'users#me'
   get '/:username', to: 'posts#wall'
   get '/posts/:post_id/comments', to: 'comments#index'
+  
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
