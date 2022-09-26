@@ -4,6 +4,8 @@ class Comment < ApplicationRecord
 
   has_one_attached :comment_image
 
+  validates :content, presence: true
+
   def comment_image_url
     Rails.application.routes.url_helpers.url_for(comment_image) if comment_image.attached?
   end

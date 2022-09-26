@@ -1,12 +1,13 @@
 import { useContext, useEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
-import { UserContext } from "../tools/hooks"
+import { PageContext, UserContext } from "../tools/hooks"
 import { PostCard } from "./PostCard"
 
-let page = 0
+// let page = 0
 
 export const Home = () => {
   const { user } = useContext(UserContext)
+  const { page, setPage } = useContext(PageContext)
   const [ errors, setErrors ] = useState([])
   const [posts, setPosts] = useState([])
   const [postLength, setPostLength] = useState(10)
@@ -30,7 +31,7 @@ export const Home = () => {
       return setHasMore(false)
     }
     setTimeout(() => {     
-      page = page + 1 
+      setPage(page => page + 1)
       fetch(`/posts?page=${page}`)
       .then(r => {
         if(r.ok) {
@@ -78,9 +79,9 @@ export const Home = () => {
     })
       .then(() => {
         if(page >= 0) {
-          page = page - 1
+          setPage(page => page - 1)
         } else {
-          page = 0
+          setPage(0)
         }
         setPosts(posts => posts.filter(p => post_id === !p.id))
       })
@@ -90,6 +91,8 @@ export const Home = () => {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
   }
+
+  console.log(page)
 
     return(
       <>

@@ -2,10 +2,14 @@ import React, { useEffect, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const NavButton = ({path = "/", text = "Back"}) => {
-
+  const { setPage } = useContext(PageContext)
   const nav = useNavigate()
+
   return (
-    <button onClick={() => nav(path)}>
+    <button onClick={() => {
+        nav(path)
+        setPage(0)
+      }}>
       {text}
     </button>
   )
@@ -19,6 +23,17 @@ export const UserProvider = ({children}) => {
     <UserContext.Provider value= {{user, setUser}}>
       {children}
     </UserContext.Provider>
+  )
+}
+
+export const PageContext = React.createContext()
+
+export const PageProvider = ({children}) => {
+  const [page, setPage] = useState(0)
+  return (
+    <PageContext.Provider value= {{page, setPage}}>
+      {children}
+    </PageContext.Provider>
   )
 }
 

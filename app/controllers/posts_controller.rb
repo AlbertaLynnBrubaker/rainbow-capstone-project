@@ -3,16 +3,17 @@ class PostsController < ApplicationController
 
   def index
     # byebug
+    user = User.first
     posts = Post.order(created_at: :desc).offset(Integer(params[:page]) * 10).limit(10)
     length = Post.all.length
-    render json: post_map_data(posts, length), status: :ok
+    render json: post_map_data(posts, length, user), status: :ok
   end
 
   def wall
     user = User.find_by(username: params[:username])
     posts = user.posts.order(created_at: :desc).offset(Integer(params[:page]) * 10).limit(10)
     length = user.posts.length
-    render json: post_map_data(posts, length), status: :ok
+    render json: post_map_data(posts, length, user), status: :ok
   end
 
   def create    
@@ -39,11 +40,12 @@ class PostsController < ApplicationController
     Post.find(params[:id])
   end
 
-  def post_map_data(posts, length)
+  def post_map_data(posts, length, user)
     post_map = posts.map { |post|
       PostSerializer.new(post).serializable_hash[:data][:attributes]
     }
-    data = {posts: post_map, length: length}
+    user_name = user.first_name
+    data = {posts: post_map, length: length, user_name: user_name}
   end
 
   def post_params

@@ -13,4 +13,8 @@ class User < ApplicationRecord
   def avatar_url
     Rails.application.routes.url_helpers.url_for(avatar) if avatar.attached?
   end
+
+  def first_name
+    self.full_name.split(' ')[0]
+  end
 end
