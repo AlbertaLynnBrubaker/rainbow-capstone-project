@@ -1,13 +1,14 @@
 import { useContext, useEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
 import { useParams } from "react-router-dom"
-import { UserContext } from "../tools/hooks"
+import { PageContext, UserContext } from "../tools/hooks"
 import { PostCard } from "./PostCard"
 
-let page = 0
+// let page = 0
 
 export const UserWall = () => {
   const { user } = useContext(UserContext)
+  const { page, setPage } = useContext(PageContext)
   const [ errors, setErrors ] = useState([])
   const [posts, setPosts] = useState([])
   const [postLength, setPostLength] = useState(10)
@@ -22,11 +23,10 @@ export const UserWall = () => {
       .then(r => {
         if(r.ok) {
           r.json().then(data => {
-            console.log(data.posts)
             setPosts(data.posts)
             setPostLength(data.length)
-            setBannerName(data.posts[0].user.full_name.split(' ')[0])   
-          })        
+            setBannerName(data.user_name)
+          })  
         }
       })
   }, [])
@@ -36,7 +36,7 @@ export const UserWall = () => {
       return setHasMore(false)
     }
     setTimeout(() => {     
-      page = page + 1  
+      setPage(page => page + 1) 
       fetch(`/${params.username}?page=${page}`)
       .then(r => {
         if(r.ok) {
@@ -84,9 +84,9 @@ export const UserWall = () => {
     })
       .then(() => {
         if(page >= 0) {
-          page = page - 1
+          setPage(page => page - 1)
         } else {
-          page = 0
+          setPage(0)
         }
         setPosts(posts => posts.filter(p => post_id === !p.id))
       })
@@ -96,6 +96,8 @@ export const UserWall = () => {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
   }
+
+  console.log(page)
 
   return(
     <>
@@ -110,7 +112,7 @@ export const UserWall = () => {
       <InfiniteScroll dataLength={posts.length}
       next={fetchMore}
       hasMore={hasMore}
-      loader={<h4>Loading...</h4>}
+      loader={posts[0] ? <h4>Loading...</h4> : null}
       endMessage={
         <button onClick={topFunction}>Back to top</button>
       }>{posts.map(post => {

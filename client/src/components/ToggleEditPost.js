@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
-import { UserContext } from '../tools/hooks'
+import { Link } from 'react-router-dom'
+import { PageContext, UserContext } from '../tools/hooks'
 
 //temp avatar styling
 const style = {
@@ -21,6 +22,7 @@ const imageStyle = {
 
 export const ToggleEditPost = ({ post, setPosts, isEditPost, setIsEditPost }) => {
     const { user } = useContext(UserContext)
+    const { setPage } = useContext(PageContext)
     const [ postContent, setPostContent ] = useState(post.content)
     const [errors, setErrors] = useState([])
 
@@ -67,8 +69,10 @@ export const ToggleEditPost = ({ post, setPosts, isEditPost, setIsEditPost }) =>
   if(isEditPost) {
     return(
       <>
-        <h1>{post.user.full_name}</h1>
-        <img src={post.user_avatar} style={style} alt="user avatar" />
+        <Link to={`/${post.user.username}`} onClick={() => setPage(0)}>
+          <h1>{post.user.full_name}</h1>
+          <img src={post.user_avatar} style={style} alt="user avatar" />
+        </Link>
         <form onSubmit={handlePatchSubmit}>
           <textarea name="content" value={postContent} onChange={handleContentChange} />
           {post.image_url ? <img src={post.image_url} alt="post" style={imageStyle} /> : null}
@@ -81,8 +85,10 @@ export const ToggleEditPost = ({ post, setPosts, isEditPost, setIsEditPost }) =>
   } else {
     return(
       <>
-        <h1>{post.user.full_name}</h1>
-        <img src={post.user_avatar} style={style} alt="user avatar" />
+        <Link to={`/${post.user.username}` } onClick={() => setPage(0)}>
+          <h1>{post.user.full_name}</h1>
+          <img src={post.user_avatar} style={style} alt="user avatar" />
+        </Link>
         <h4>{post.content}</h4>
         {post.image_url ? <img src={post.image_url} alt="post" style={imageStyle} /> : null}       
       </>

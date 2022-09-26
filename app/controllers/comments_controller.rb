@@ -2,7 +2,8 @@ class CommentsController < ApplicationController
   skip_before_action :authenticate_user, only: :index
 
   def index
-    comments = Post.find(params[:post_id]).comments
+    comments = Comment.where(post_id: params[:post_id])
+    # Post.find(params[:post_id]).comments
     # byebug
     comments_map = comments.map { |comment|
       CommentSerializer.new(comment).serializable_hash[:data][:attributes]
