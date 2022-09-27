@@ -1,9 +1,18 @@
 import { useContext, useEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
+import { v4 as uuid } from 'uuid'
+
 import { PageContext, UserContext } from "../tools/hooks"
 import { PostCard } from "./PostCard"
+import Styles from '../styles/HomeWall.style'
 
-// let page = 0
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Card from 'react-bootstrap/Card'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
+
 
 export const Home = () => {
   const { user } = useContext(UserContext)
@@ -92,29 +101,38 @@ export const Home = () => {
     document.documentElement.scrollTop = 0;
   }
 
-  console.log(page)
-
-    return(
-      <>
-        <h1>Home</h1>
-        {user ? <form onSubmit={handlePostSubmit}>        
-          <textarea type="text" name="content" placeholder='Make a new post...' />
-          <br/>          
-          <input type="file" name="image" />
-          <br/>
-          <button type="submit">Make Post</button>
-        </form> : null}
-        <InfiniteScroll dataLength={posts.length}
-        next={fetchMore}
-        hasMore={hasMore}
-        loader={<h4>Loading...</h4>}
-        endMessage={
-          <button onClick={topFunction}>Back to top</button>
-        }
-        >{posts.map(post => {          
-            return <PostCard key={post.id} post= {post} posts={posts} setPosts={setPosts} handleDeletePost={handleDeletePost} />          
-          }
-        )}</InfiniteScroll>        
-      </>
+    return(   
+      <Styles>
+        <Container className="content-container" fluid="sm">
+          <Row >
+            <Col ></Col>
+            <Col lg={8} id="scrollable-div" >
+              {user ? 
+              <Card className="form-card">
+                <Form onSubmit={handlePostSubmit}>                
+                  <Form.Control as="textarea" type="text" name="content" placeholder={`What's on your mind, ${user.first_name}?`} className="form-textarea" />
+                  <Form.Group className="form-file-inline">            
+                    <Form.Control type="file" name="image" className="form-file-input"/>
+                    <Button className="form-submit" type="submit">Make Post</Button>
+                  </Form.Group>    
+                </Form>
+              </Card> : null}
+              <InfiniteScroll dataLength={posts.length}
+              next={fetchMore}
+              hasMore={hasMore}
+              loader={<h4>Loading...</h4>}
+              scrollableTarget="scrollable-div"
+              endMessage={
+                <button onClick={topFunction}>Back to top</button>
+              }
+              >{posts.map(post => {          
+                  return <PostCard key={uuid()} post= {post} posts={posts} setPosts={setPosts} handleDeletePost={handleDeletePost} />          
+                }
+              )}</InfiniteScroll>
+          </Col>
+          <Col ></Col>
+          </Row>        
+        </Container>
+      </Styles>    
     )
 }

@@ -1,6 +1,9 @@
 import React, { useEffect, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { RiDoorOpenFill, RiDoorOpenLine } from 'react-icons/ri'
+import LogoutButton from '../styles/Logout.style'
+
 export const NavButton = ({path = "/", text = "Back"}) => {
   const { setPage } = useContext(PageContext)
   const nav = useNavigate()
@@ -52,7 +55,7 @@ export const Logout = () => {
   }
 
   return(
-    <button onClick={handleLogout}>Logout</button>
+    <LogoutButton onClick={handleLogout}><RiDoorOpenFill className="btn-icon"/></LogoutButton>
   )
 }
 

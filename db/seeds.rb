@@ -11,6 +11,12 @@ bg = User.create(username: 'background', email:
 bg.avatar.attach(io: File.open(Rails.root.join(
   'background-colorful-rainbow-gradient.png')), filename: 'background-colorful-rainbow-gradient.png', content_type: 'image/png')
 
+logo = User.create(username: 'logo', email:
+  'logo@gmail.com', password: '123', password_confirmation: '123', full_name: 'Logo', age: 1, bio: 'Blah blah blah', admin: true)
+
+logo.avatar.attach(io: File.open(Rails.root.join(
+  'rainbow-logo.png')), filename: 'rainbow-logo.png', content_type: 'image/png')
+
 admin = User.create(username: "Alie", password: "123", password_confirmation: "123", email: "findingalberta@gmail.com", full_name: "Alie Brubaker", age: 36, bio: "Just a smalltown girl livin in a lonely world", admin: true)
 
 admin.avatar.attach(
@@ -25,13 +31,13 @@ end
 puts "spreading the gay agenda..."
 
 50.times do
-  Post.create(content: Faker::Hipster.paragraphs(number: 1), user_id: User.where('id > 1').sample.id)
+  Post.create(content: Faker::Hipster.paragraphs(number: 1), user_id: User.where('id > 2').sample.id)
 end
 
 puts "sewing the seeds of the destruction of the Cishet Hegemony..."
 
 120.times do
-  Comment.create(content: Faker::Hipster.paragraphs(number: 1), post_id: Post.all.sample.id, user_id: User.where('id > 1').sample.id)
+  Comment.create(content: Faker::Hipster.paragraphs(number: 1), post_id: Post.all.sample.id, user_id: User.where('id > 2').sample.id)
 end
 
 puts "finished creating the Anarco-Syndacalist Gay Paradise we all yearn for!"

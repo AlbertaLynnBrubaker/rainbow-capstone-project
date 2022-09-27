@@ -1,6 +1,7 @@
 import styled from "styled-components"
 
 export const Background = styled.div`
+  position: fixed;
   height: 100%;
   width: 100%;
   background-image: url(${props => props.url});

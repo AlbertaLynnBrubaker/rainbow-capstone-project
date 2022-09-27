@@ -7,7 +7,8 @@ class UsersController < ApplicationController
 
   def background    
     bg = User.find_by(username: 'background')
-    background_url = {background_url: bg.avatar_url}
+    logo = User.find_by(username: 'logo')
+    background_url = {background_url: bg.avatar_url, logo_url: logo.avatar_url}
     render json: background_url, status: :ok
   end
 
