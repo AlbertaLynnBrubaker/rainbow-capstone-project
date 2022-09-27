@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid'
 
 import { PageContext, UserContext } from "../tools/hooks"
 import { PostCard } from "./PostCard"
-import Styles from '../styles/Home.style'
+import Styles from '../styles/HomeWall.style'
 
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
@@ -101,27 +101,27 @@ export const Home = () => {
     document.documentElement.scrollTop = 0;
   }
 
-  console.log(user)
-
     return(   
       <Styles>
         <Container className="content-container" fluid="sm">
           <Row >
             <Col ></Col>
-            <Col lg={8} className="home-center" >              
+            <Col lg={8} id="scrollable-div" >
+              {user ? 
               <Card className="form-card">
-              {user ? <Form onSubmit={handlePostSubmit}>                
-                <Form.Control as="textarea" type="text" name="content" placeholder={`What's on your mind, ${user.first_name}?`} className="form-textarea" />
-                <Form.Group className="form-file-inline">            
-                <Form.Control type="file" name="image" className="form-file-input"/>
-                <Button className="form-submit" type="submit">Make Post</Button>
-                </Form.Group>    
-              </Form> : null}
-              </Card>
+                <Form onSubmit={handlePostSubmit}>                
+                  <Form.Control as="textarea" type="text" name="content" placeholder={`What's on your mind, ${user.first_name}?`} className="form-textarea" />
+                  <Form.Group className="form-file-inline">            
+                    <Form.Control type="file" name="image" className="form-file-input"/>
+                    <Button className="form-submit" type="submit">Make Post</Button>
+                  </Form.Group>    
+                </Form>
+              </Card> : null}
               <InfiniteScroll dataLength={posts.length}
               next={fetchMore}
               hasMore={hasMore}
               loader={<h4>Loading...</h4>}
+              scrollableTarget="scrollable-div"
               endMessage={
                 <button onClick={topFunction}>Back to top</button>
               }

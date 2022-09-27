@@ -3,6 +3,15 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { UserContext } from "../tools/hooks"
 
+import Styles from "../styles/LoginSignup.style"
+
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Card from 'react-bootstrap/Card'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
+
 
 export const Login = () => {
   const { user, setUser } = useContext(UserContext)
@@ -43,15 +52,29 @@ export const Login = () => {
   }
 
   return (
-    <>
-      <form onSubmit={handleLoginSubmit}>
-        {errors ? errors.map(e => <section>{e}</section>) : null}
-        <label htmlFor="username">Username:</label>
-        <input type="text" name="username" onChange={handleLogin}/>
-        <label htmlFor="password">Password:</label>
-        <input type="password" name="password" onChange={handleLogin}/>
-        <input type="submit" />
-      </form>
-    </>
+    <Styles>
+      <Container className="content-container">
+        <Row>
+          <Col></Col>
+          <Col xs={8} className="home-center">
+            <Card className="form-card">
+              <Form onSubmit={handleLoginSubmit} className="form">
+                {errors ? errors.map(e => <section>{e}</section>) : null}
+                <Form.Group className="form-floating">
+                  <Form.Control type="text" name="username" onChange={handleLogin} placeholder="floating" className="form-file-input"/>
+                  <Form.Label htmlFor="username">Username</Form.Label>
+                </Form.Group>
+                <Form.Group className="form-floating">
+                <Form.Control type="password" name="password" onChange={handleLogin} placeholder="floating" className="form-file-input"/>
+                <Form.Label htmlFor="password">Password</Form.Label>
+                </Form.Group>
+                <Button className="form-submit" type="submit">Login</Button>
+              </Form>
+            </Card>
+          </Col>
+          <Col></Col>
+        </Row>
+      </Container>
+    </Styles>
   )
 }

@@ -1,26 +1,47 @@
 import styled from "styled-components";
 
 const Styles = styled.div`
-  .content-container {
-    padding-top: 80px;
+  padding-top: 50px;
+  #scrollable-div {
+    height: calc(100vh - 50px);
+    width: 1fr;
+    overflow: auto;
+  
+    ::-webkit-scrollbar {
+      display: none
+    }
   }
 
-  .form-card {
+  .form-card {   
+    margin: 20px 0; 
     padding: 1.1rem;
-    border-radius: 25px;
+    border-radius: 15px;
     border: 1px solid lightgray;
-    box-shadow: 2px 2px 8px grey;
+    box-shadow: 2px 2px 8px grey;    
+  }
+
+  .form-card > form {
+    display:flex;
+    flex-direction: column;
+    gap:15px;
   }
 
   .form-textarea {
-    border: 0;
-    border-radius: 15px;
+    border: 2px solid white;
+    border-radius: 10px;
   }
 
   .form-textarea:hover {
-    border: 0;
-    border-radius: 15px;
+    border: 2px solid lavender;
+    border-radius: 10px;
     background-color: lavender;
+    outline: lavender solid 2px;
+  }
+
+  .form-textarea:focus {
+    border: 2px solid lavender;
+    border-radius: 10px;
+    outline: lavender solid 2px;
   }
 
   .form-file-input {
@@ -39,7 +60,7 @@ const Styles = styled.div`
   }
 
   .form-file-inline {
-    padding-top: 1rem;
+    /* padding-top: 1rem; */
     display: flex;
     justify-content: space-evenly;
   }
