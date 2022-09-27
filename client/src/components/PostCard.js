@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react'
+import { v4 as uuid } from 'uuid'
 import { UserContext } from '../tools/hooks'
 import { CommentCard } from './CommentCard'
 import { ToggleEditPost } from './ToggleEditPost'
@@ -117,13 +118,13 @@ export const PostCard = ({post, setPosts, handleDeletePost}) => {
       }      
       {isCommentClicked ?
         <div>{comments.map( comment => {
-          return <CommentCard key={comment.id} comment={comment} setComments={setComments} onDeleteComment={onDeleteComment} />
+          return <CommentCard key={uuid()} comment={comment} setComments={setComments} onDeleteComment={onDeleteComment} />
         }
         )}</div> :
         <div>
           {comments[0]? 
             <>
-              <CommentCard key={comments[0].id} comment={comments[0]} setComments={setComments} onDeleteComment={onDeleteComment} /> 
+              <CommentCard key={uuid()} comment={comments[0]} setComments={setComments} onDeleteComment={onDeleteComment} /> 
               {hideComment}            
             </>
           : 

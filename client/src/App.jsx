@@ -1,5 +1,9 @@
 import React from 'react';
 import { Routes, Route,} from 'react-router-dom'
+import { AuthRoute, PageProvider, UserProvider } from './tools/hooks';
+import { useEffect } from 'react';
+import { useState } from 'react';
+
 
 import { Home } from './components/Home'
 import { Login } from './components/Login'
@@ -10,30 +14,32 @@ import { NotFound } from './components/NotFound'
 import { Navigation } from './components/Navigation';
 
 import './App.css';
-import { GlobalStyles } from './GlobalStyles.style';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import GlobalStyle from './GlobalStyles.style';
 import { Background } from './styles/Background.style';
 
-import { AuthRoute, PageProvider, UserProvider } from './tools/hooks';
-import { useEffect } from 'react';
-import { useState } from 'react';
 
 function App() {
   const [backgroundUrl, setBackgroundUrl] = useState('')
+  const [logoUrl, setLogoUrl] = useState('')
 
   useEffect(() => {
     fetch('/background?page=0')
       .then(r => r.json())
-      .then((data) => setBackgroundUrl(data.background_url))
+      .then((data) => {
+        setBackgroundUrl(data.background_url)
+        setLogoUrl(data.logo_url)
+      })
   },[])
 
-  console.log(backgroundUrl)
-  
-  return (    
+  return (
+    <>
+    <GlobalStyle />
     <UserProvider >
       <PageProvider>
         <Background url={backgroundUrl}>
-          <GlobalStyles/>
-          <Navigation />
+          
+          <Navigation logoUrl={logoUrl} />
             <Routes>
               <Route index element= {<AuthRoute><Home /></AuthRoute>} />
               <Route path="/:username/profile" element= {<AuthRoute ><UserProfile /></AuthRoute>}/>
@@ -45,6 +51,7 @@ function App() {
           </Background>
       </PageProvider>
     </UserProvider>
+    </>
   );
 }
 
