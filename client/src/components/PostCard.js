@@ -13,25 +13,6 @@ import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
-
-// //temp avatar styling
-// const style = {
-//   height: 40,
-//   width: 'auto',
-//   border: "1px solid black",
-//   borderRadius: 40,
-//   marginLeft: 6
-// }
-
-// //temp avatar styling
-// const imageStyle = {
-//   height: 400,
-//   width: 'auto',
-//   border: "1px solid black",
-  
-//   marginLeft: 6
-// }
-
 export const PostCard = ({post, setPosts, handleDeletePost}) => {
   const { user } = useContext(UserContext)
   const [isEditPost, setIsEditPost] = useState(false)
@@ -99,7 +80,7 @@ export const PostCard = ({post, setPosts, handleDeletePost}) => {
     if(isCommentClicked || comments.length <= 1) {
       return null
     } else {
-      return <button onClick={ handleCommentClick }>View more comments</button>
+      return <Button onClick={ handleCommentClick } className='form-submit'>View more comments...</Button>
     }
   }
   const hideComment = singleCommentHideButton()

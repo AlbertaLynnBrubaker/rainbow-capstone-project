@@ -125,7 +125,7 @@ export const UserWall = () => {
               loader={posts[0] ? <h4>Loading...</h4> : null}
               scrollableTarget="scrollable-div"
               endMessage={
-                <h7>End of content</h7>
+                <h6>End of content</h6>
               }>{posts.map(post => {
                 
                 return (

@@ -1,27 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { UserContext } from '../tools/hooks'
+import { Link } from 'react-router-dom'
+import { PageContext, UserContext } from '../tools/hooks'
 import { EditComment } from './EditComment'
 
-//temp image styling
-const style = {
-  height: 40,
-  width: 'auto',
-  border: "1px solid black",
-  borderRadius: 40,
-  margin: 6
-}
+import Styles from '../styles/Comment.style'
 
-//temp avatar styling
-const imageStyle = {
-  height: 400,
-  width: 'auto',
-  border: "1px solid black",
-  
-  marginLeft: 6
-}
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Card from 'react-bootstrap/Card'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 
 export const CommentCard = ({comment, setComments, onDeleteComment}) => {
   const { user } = useContext(UserContext)
+  const { setPage } = useContext(PageContext)
   
   const [ isEditComment, setIsEditComment ] = useState(false)
   
@@ -42,20 +35,24 @@ export const CommentCard = ({comment, setComments, onDeleteComment}) => {
     return <EditComment comment={comment} setComments={setComments}  isEditComment={isEditComment} setIsEditComment={setIsEditComment} handleDeleteComment={handleDeleteComment}/>
   } else {
     return (
-      <div>
-        <h4>{comment.user.full_name}</h4>
-        <img src= {comment.user_avatar} alt="user avatar" style={style}/>
-        <h5>{comment.comment.content}</h5>
-        {comment.comment_image_url ? <img src={comment.comment_image_url} alt="comment" style={imageStyle} /> : null}
-        {comment.user.id === user.id ?
-          <>
-            {isEditComment ? null: <button onClick={handleEditComment}>Edit Comment</button>}
-            <button onClick={handleDeleteComment}>Remove Comment</button>
-          </>
-          :
-          null
-        }
-      </div>
+      <Styles>
+        <Container sm={10} className='comment-container'>
+          <Link to={`/${comment.user.username}`} onClick={() => setPage(0)} className="user-banner">
+            <img src={comment.user_avatar}  alt="user avatar" className='user-avatar-img'/>
+            <h5 className='user-avatar-text'>{comment.user.full_name}</h5>          
+          </Link>
+          <p>{comment.comment.content}</p>
+          <Container className='comment-img-container'>{comment.comment_image_url ? <img src={comment.comment_image_url} alt="comment" className='comment-img' /> : null}</Container>
+          {comment.user.id === user.id ?
+            <Container className='btn-container'>
+              {isEditComment ? null: <Button onClick={handleEditComment} className='form-submit'>Edit Comment</Button>}
+              <Button onClick={handleDeleteComment} className='form-submit'>Remove Comment</Button>
+            </Container>
+            :
+            null
+          }
+        </Container>
+      </Styles>
     )
   }
 }

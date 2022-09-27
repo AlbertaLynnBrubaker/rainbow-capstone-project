@@ -118,7 +118,7 @@ export const Home = () => {
               loader={<h4>Loading...</h4>}
               scrollableTarget="scrollable-div"
               endMessage={
-                <h7>End of content</h7>
+                <h6>End of content</h6>
               }
               >{posts.map(post => {          
                   return <PostCard key={uuid()} post= {post} posts={posts} setPosts={setPosts} handleDeletePost={handleDeletePost} />          

@@ -58,7 +58,7 @@ export const ToggleEditPost = ({ post, setPosts, isEditPost, setIsEditPost }) =>
       <Styles>
         <Link to={`/${post.user.username}`} onClick={() => setPage(0)} className="user-banner">
           <img src={post.user_avatar}  alt="user avatar" className='user-avatar-img'/>
-          <h1 className='user-avatar-text'>{post.user.full_name}</h1>          
+          <h5 className='user-avatar-text'>{post.user.full_name}</h5>          
         </Link>
         <Form onSubmit={handlePatchSubmit} className="post-form" >
           {post.image_url ? <img src={post.image_url} alt="post" className="post-img" /> : null}
