@@ -2,23 +2,10 @@ import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { PageContext, UserContext } from '../tools/hooks'
 
-//temp avatar styling
-const style = {
-  height: 40,
-  width: 'auto',
-  border: "1px solid black",
-  borderRadius: 40,
-  marginLeft: 6
-}
+import Styles from '../styles/Post.style'
 
-//temp avatar styling
-const imageStyle = {
-  height: 400,
-  width: 'auto',
-  border: "1px solid black",
-  
-  marginLeft: 6
-}
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 
 export const ToggleEditPost = ({ post, setPosts, isEditPost, setIsEditPost }) => {
     const { user } = useContext(UserContext)
@@ -68,30 +55,32 @@ export const ToggleEditPost = ({ post, setPosts, isEditPost, setIsEditPost }) =>
 
   if(isEditPost) {
     return(
-      <>
-        <Link to={`/${post.user.username}`} onClick={() => setPage(0)}>
-          <h1>{post.user.full_name}</h1>
-          <img src={post.user_avatar} style={style} alt="user avatar" />
+      <Styles>
+        <Link to={`/${post.user.username}`} onClick={() => setPage(0)} className="user-banner">
+          <img src={post.user_avatar}  alt="user avatar" className='user-avatar-img'/>
+          <h1 className='user-avatar-text'>{post.user.full_name}</h1>          
         </Link>
-        <form onSubmit={handlePatchSubmit}>
-          <textarea name="content" value={postContent} onChange={handleContentChange} />
-          {post.image_url ? <img src={post.image_url} alt="post" style={imageStyle} /> : null}
-          <input type="file" name="image" />
-          <button type='submit'>Edit Post</button>
-        </form>
+        <Form onSubmit={handlePatchSubmit} className="post-form" >
+          {post.image_url ? <img src={post.image_url} alt="post" className="post-img" /> : null}
+          <Form.Control as="textarea" name="content" value={postContent} onChange={handleContentChange} className="form-textarea" />          
+          <Form.Group className="form-file-inline">
+            <Form.Control type='file' name='image' className='form-file-input'/>
+            <Button type='submit' className='form-submit'>Edit Post</Button>
+          </Form.Group>
+        </Form>
         
-      </>
+      </Styles>
     )
   } else {
     return(
-      <>
-        <Link to={`/${post.user.username}` } onClick={() => setPage(0)}>
-          <h1>{post.user.full_name}</h1>
-          <img src={post.user_avatar} style={style} alt="user avatar" />
-        </Link>
-        <h4>{post.content}</h4>
-        {post.image_url ? <img src={post.image_url} alt="post" style={imageStyle} /> : null}       
-      </>
+      <Styles>
+        <Link to={`/${post.user.username}` } onClick={() => setPage(0)} className="user-banner">
+          <img src={post.user_avatar}  alt="user avatar" className='user-avatar-img'/>
+          <h5 className='user-avatar-text'>{post.user.full_name}</h5>          
+        </Link>       
+        <p>{post.content}</p>
+        {post.image_url ? <img src={post.image_url} alt="post" className='post-img' /> : null}        
+      </Styles>
     )
   }
   

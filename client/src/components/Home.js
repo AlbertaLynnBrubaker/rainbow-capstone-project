@@ -96,11 +96,6 @@ export const Home = () => {
       })
   }
 
-  const topFunction = () => {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
-  }
-
     return(   
       <Styles>
         <Container className="content-container" fluid="sm">
@@ -123,7 +118,7 @@ export const Home = () => {
               loader={<h4>Loading...</h4>}
               scrollableTarget="scrollable-div"
               endMessage={
-                <button onClick={topFunction}>Back to top</button>
+                <h7>End of content</h7>
               }
               >{posts.map(post => {          
                   return <PostCard key={uuid()} post= {post} posts={posts} setPosts={setPosts} handleDeletePost={handleDeletePost} />          

@@ -7,7 +7,7 @@ const LogoutButton = styled.button`
   .btn-icon {
     width: 28px;
     height: 28px;
-    color: purple;
+    color: #8C72BB;
   }
 `
 
