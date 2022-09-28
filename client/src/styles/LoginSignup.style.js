@@ -8,7 +8,7 @@ const Styles = styled.div`
     height: calc(100vh - 50px);
     width: 1fr;
     overflow: auto;
-  
+
     ::-webkit-scrollbar {
       display: none
     }
@@ -26,6 +26,22 @@ const Styles = styled.div`
     border: 1px solid #8C72BB;
     border-radius: 10px;
     object-fit: contain;
+  }
+
+  .delete-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .delete-card {
+    padding: 1.1rem;
+    border-radius: 15px;
+    border: 1px solid lightgray;
+    box-shadow: 2px 2px 8px grey;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    width: 50%;
   }
 
   .profile-password-container {
@@ -70,6 +86,18 @@ const Styles = styled.div`
     color: white;
     background-color: #8C72BB;
     border: 2px solid #8C72BB;
+  }
+
+  .form-delete {
+    color: black;
+    background-color: lavender;
+    border: 2px solid white;
+  }
+
+  .form-delete:hover {
+    color: white;
+    background-color: #ED5E53;
+    border: 2px solid #ED5E53;
   }
 `
 

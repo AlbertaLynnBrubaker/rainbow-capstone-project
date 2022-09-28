@@ -67,7 +67,9 @@ export const UserProfile = () => {
     navigate(`/${user.username}/password`)
   }
 
-  console.log(userData, user)
+  const renderDeleteForm = () => {
+    navigate(`/${user.username}/delete`)
+  }
 
   if(user.username !== params.username ) {
     navigate('/') 
@@ -89,7 +91,10 @@ export const UserProfile = () => {
                   <Form.Control type="text" name="username" className="form-file-input" value={userData.username} onChange={handleProfileChange}/>                  
                 </Form.Group>
                 <Form.Group>
-                  <Form.Label htmlFor="email">Email</Form.Label>
+                  <Form.Group className="profile-password-container">
+                    <Form.Label htmlFor="email">Email</Form.Label>
+                    <Button className="form-delete" onClick={renderDeleteForm}>Delete Account</Button>
+                 </Form.Group>
                   <Form.Control type="text" name="email" className="form-file-input" value={userData.email} onChange={handleProfileChange}/>
                 </Form.Group>                
                 <Form.Group>
