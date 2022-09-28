@@ -1,8 +1,38 @@
 import styled from "styled-components";
 
 const Styles = styled.div`
+  padding-top: 50px;
+
   .content-container {
-    padding-top: 80px;
+    padding: 20px 0;
+    height: calc(100vh - 50px);
+    width: 1fr;
+    overflow: auto;
+  
+    ::-webkit-scrollbar {
+      display: none
+    }
+  }
+
+  .avatar-container {
+    display: flex;
+    justify-content: space-around;
+    width: 59%;
+  }
+
+  .profile-img {    
+    height: auto;
+    width: 30%;
+    border: 1px solid #8C72BB;
+    border-radius: 10px;
+    object-fit: contain;
+  }
+
+  .profile-password-container {
+    display: flex;
+    justify-content: space-between;
+    align-content: baseline;
+    margin-bottom: 5px;
   }
 
   .form-card {

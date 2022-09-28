@@ -22,7 +22,7 @@ admin = User.create(username: "Alie", password: "123", password_confirmation: "1
 admin.avatar.attach(
   io: File.open(Rails.root.join('avatar_blank.png')), filename: 'avatar_blank.png', content_type: 'image/png')
 
-1000.times do 
+while User.all.length <= 600 do 
   u = User.create(username: Faker::Internet.unique.username, password: "123", password_confirmation: "123", email: Faker::Internet.unique.email, full_name: Faker::Name.unique.name, age: Faker::Number.within(range: 13..45), bio: Faker::Hipster.paragraphs(number: 1) )
   u.avatar.attach(
     io: File.open(Rails.root.join('avatar_blank.png')), filename: 'avatar_blank.png', content_type: 'image/png')

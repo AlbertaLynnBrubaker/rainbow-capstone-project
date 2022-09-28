@@ -96,6 +96,8 @@ export const Home = () => {
       })
   }
 
+  console.log(posts)
+
     return(   
       <Styles>
         <Container className="content-container" fluid="sm">

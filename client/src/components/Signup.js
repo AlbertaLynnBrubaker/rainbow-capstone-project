@@ -52,7 +52,7 @@ export const Signup = () => {
       <Container className="content-container">
         <Row>
           <Col></Col>
-          <Col xs={8} className="home-center">
+          <Col xs={10} md={8} lg={6} className="home-center">
             <Card className="form-card">
               <Form onSubmit={handleSignupSubmit} className="form">
                 {errors ? errors.map(e => <section>{e}</section>) : null}

@@ -21,10 +21,6 @@ const Styles = styled.div`
     align-items: center;
   }
 
-  .btn-nav {
-    
-  }
-
   .btn-icon {
     width: 28px;
     height: 28px;
@@ -36,6 +32,23 @@ const Styles = styled.div`
     height: 45px;
     border: 1px solid #8C72BB;
     border-radius: 45px;
+  }
+
+  .user-banner {
+    display: flex;    
+    text-decoration: none;
+  }
+
+  .user-avatar-img {
+    height: 45px;
+    width: 45px;
+    border: 1px solid #8C72BB;
+    border-radius: 40px;
+    margin-left: 3px;
+  }
+
+  .user-avatar-text {
+    color: black;
   }
 `
 
