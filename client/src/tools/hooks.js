@@ -61,7 +61,7 @@ export const Logout = () => {
 
 export const AuthRoute = ({children}) => {
   const {user, setUser} = useContext(UserContext)
-  const nav = useNavigate()
+
 
   useEffect(() => {
     fetch('/me')

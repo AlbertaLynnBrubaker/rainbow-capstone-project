@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
 import { v4 as uuid } from 'uuid'
 
@@ -18,22 +18,23 @@ export const Home = () => {
   const { user } = useContext(UserContext)
   const { page, setPage } = useContext(PageContext)
   const [ errors, setErrors ] = useState([])
-  const [posts, setPosts] = useState([])
-  const [postLength, setPostLength] = useState(10)
-  const [hasMore, setHasMore] = useState(true)
+  const [ posts, setPosts ] = useState([])
+  const [ postLength, setPostLength ] = useState(10)
+  const [ hasMore, setHasMore ] = useState(true)
   
 
-  useEffect(() => {
-    fetch(`/posts?page=${page}`)
+  if(page === 0){    
+    fetch(`/posts?page=0`)
       .then(r => {
         if(r.ok) {
           r.json().then(data => {
             setPosts(data.posts)
-            setPostLength(data.length)     
+            setPostLength(data.length)
+            setPage(1)     
           })        
         }
-      })
-  }, [])
+      })    
+  }
 
   const fetchMore = () => {
     if (posts.length >= postLength) {
@@ -87,7 +88,7 @@ export const Home = () => {
       method: 'DELETE'
     })
       .then(() => {
-        if(page >= 0) {
+        if(page > 0) {
           setPage(page => page - 1)
         } else {
           setPage(0)
@@ -96,38 +97,39 @@ export const Home = () => {
       })
   }
 
-    return(   
-      <Styles>
-        <Container className="content-container" fluid="sm">
-          <Row >
-            <Col ></Col>
-            <Col lg={8} id="scrollable-div" >
-              {user ? 
-              <Card className="form-card">
-                <Form onSubmit={handlePostSubmit}>                
-                  <Form.Control as="textarea" type="text" name="content" placeholder={`What's on your mind, ${user.first_name}?`} className="form-textarea" />
-                  <Form.Group className="form-file-inline">            
-                    <Form.Control type="file" name="image" className="form-file-input"/>
-                    <Button className="form-submit" type="submit">Make Post</Button>
-                  </Form.Group>    
-                </Form>
-              </Card> : null}
-              <InfiniteScroll dataLength={posts.length}
-              next={fetchMore}
-              hasMore={hasMore}
-              loader={<h4>Loading...</h4>}
-              scrollableTarget="scrollable-div"
-              endMessage={
-                <h6>End of content</h6>
-              }
-              >{posts.map(post => {          
-                  return <PostCard key={uuid()} post= {post} posts={posts} setPosts={setPosts} handleDeletePost={handleDeletePost} />          
-                }
-              )}</InfiniteScroll>
-          </Col>
+  return(   
+    <Styles>
+      <Container className="content-container" fluid="sm">
+        <Row >
           <Col ></Col>
-          </Row>        
-        </Container>
-      </Styles>    
-    )
+          <Col lg={8} id="scrollable-div" >
+            {user ? 
+            <Card className="form-card">
+              <Form onSubmit={handlePostSubmit}>
+                {errors ? errors.map(e => <section key={uuid()}>{e}</section>) : null}
+                <Form.Control as="textarea" type="text" name="content" placeholder={`What's on your mind, ${user.first_name}?`} className="form-textarea" />
+                <Form.Group className="form-file-inline">            
+                  <Form.Control type="file" name="image" className="form-file-input"/>
+                  <Button className="form-submit" type="submit">Make Post</Button>
+                </Form.Group>    
+              </Form>
+            </Card> : null}
+            <InfiniteScroll dataLength={posts.length}
+            next={fetchMore}
+            hasMore={hasMore}
+            loader={<h4>Loading...</h4>}
+            scrollableTarget="scrollable-div"
+            endMessage={
+              <h6>End of content</h6>
+            }
+            >{posts.map(post => {          
+                return <PostCard key={uuid()} post= {post} posts={posts} setPosts={setPosts} handleDeletePost={handleDeletePost} />          
+              }
+            )}</InfiniteScroll>
+        </Col>
+        <Col ></Col>
+        </Row>        
+      </Container>
+    </Styles>    
+  )
 }

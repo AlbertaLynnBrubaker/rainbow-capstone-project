@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
 import { useParams } from "react-router-dom"
 import { v4 as uuid } from "uuid"
@@ -14,30 +14,28 @@ import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
-// let page = 0
-
 export const UserWall = () => {
   const { user } = useContext(UserContext)
   const { page, setPage } = useContext(PageContext)
   const [ errors, setErrors ] = useState([])
-  const [posts, setPosts] = useState([])
-  const [postLength, setPostLength] = useState(10)
-  const [hasMore, setHasMore] = useState(true)
-  
+  const [ posts, setPosts ] = useState([])
+  const [ postLength, setPostLength ] = useState(10)
+  const [ hasMore, setHasMore ] = useState(true)  
 
   const params = useParams()
 
-  useEffect(() => {
-    fetch(`/${params.username}?page=${page}`)
+  if(page === 0){
+    fetch(`/posts?page=0`)
       .then(r => {
         if(r.ok) {
           r.json().then(data => {
             setPosts(data.posts)
             setPostLength(data.length)
-          })  
+            setPage(1)     
+          })        
         }
-      })
-  }, [])
+      })    
+  }
 
   const fetchMore = () => {
     if (posts.length >= postLength) {
@@ -91,7 +89,7 @@ export const UserWall = () => {
       method: 'DELETE'
     })
       .then(() => {
-        if(page >= 0) {
+        if(page > 0) {
           setPage(page => page - 1)
         } else {
           setPage(0)
@@ -100,42 +98,45 @@ export const UserWall = () => {
       })
   }
 
+  console.log(errors)
+
   return(
     <Styles>
-        <Container className="content-container" fluid="sm">
-          <Row >
-            <Col ></Col>
-            <Col lg={8} id="scrollable-div" >
-              {user ?
-              <Card className="form-card"> 
-                <Form onSubmit={handlePostSubmit}>        
-                  <Form.Control as="textarea" type="text" name="content" placeholder={`Spread your agenda, ${user.first_name}!`} className="form-textarea"/>
-                  <Form.Group className="form-file-inline">
-                    <Form.Control type="file" name="image" className="form-file-input"/>
-                    <Button type="suBmit" className="form-submit">Make Post</Button>
-                  </Form.Group>
-                </Form>
-              </Card> : null}
+      <Container className="content-container" fluid="sm">
+        <Row >
+          <Col ></Col>
+          <Col lg={8} id="scrollable-div" >
+            {user ?
+            <Card className="form-card"> 
+              <Form onSubmit={handlePostSubmit}>
+              {errors ? errors.map(e => <section key={uuid()}>{e}</section>) : null}        
+                <Form.Control as="textarea" type="text" name="content" placeholder={`Spread your agenda, ${user.first_name}!`} className="form-textarea"/>
+                <Form.Group className="form-file-inline">
+                  <Form.Control type="file" name="image" className="form-file-input"/>
+                  <Button type="suBmit" className="form-submit">Make Post</Button>
+                </Form.Group>
+              </Form>
+            </Card> : null}
+            
+            <InfiniteScroll dataLength={posts.length}
+            next={fetchMore}
+            hasMore={hasMore}
+            loader={posts[0] ? <h4>Loading...</h4> : null}
+            scrollableTarget="scrollable-div"
+            endMessage={
+              <h6>End of content</h6>
+            }>{posts.map(post => {
               
-              <InfiniteScroll dataLength={posts.length}
-              next={fetchMore}
-              hasMore={hasMore}
-              loader={posts[0] ? <h4>Loading...</h4> : null}
-              scrollableTarget="scrollable-div"
-              endMessage={
-                <h6>End of content</h6>
-              }>{posts.map(post => {
-                
-                return (
-                <>            
-                  <PostCard key={uuid()} post= {post} posts={posts} setPosts={setPosts} handleDeletePost={handleDeletePost} />
-                </>
-                )}
-              )}</InfiniteScroll>        
-            </Col>
-            <Col ></Col>
-          </Row>        
-        </Container>
-      </Styles>
+              return (
+              <>            
+                <PostCard key={uuid()} post= {post} posts={posts} setPosts={setPosts} handleDeletePost={handleDeletePost} />
+              </>
+              )}
+            )}</InfiniteScroll>        
+          </Col>
+          <Col ></Col>
+        </Row>        
+      </Container>
+    </Styles>
   )
 }

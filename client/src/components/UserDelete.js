@@ -14,7 +14,7 @@ import Button from 'react-bootstrap/Button'
 
 export const UserDelete = () => {
   const { user, setUser } = useContext(UserContext)
-  const [errors, setErrors] = useState([])
+  const [ errors, setErrors ] = useState([])
   
   const params = useParams()
   const navigate = useNavigate()

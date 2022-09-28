@@ -4,7 +4,7 @@ class User < ApplicationRecord
   has_many :posts
   has_many :comments, through: :posts
 
-  has_one_attached :avatar
+  has_one_attached :avatar, dependent: :purge_later
 
   validates :username, :email, presence: true
   validates :username, uniqueness: true

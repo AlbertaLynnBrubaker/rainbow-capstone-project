@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { PageContext, UserContext } from '../tools/hooks'
 import { EditComment } from './EditComment'
@@ -6,15 +6,12 @@ import { EditComment } from './EditComment'
 import Styles from '../styles/Comment.style'
 
 import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import Card from 'react-bootstrap/Card'
-import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
 export const CommentCard = ({comment, setComments, onDeleteComment}) => {
   const { user } = useContext(UserContext)
   const { setPage } = useContext(PageContext)
+  const [ errors, setErrors ] = useState([])
   
   const [ isEditComment, setIsEditComment ] = useState(false)
   

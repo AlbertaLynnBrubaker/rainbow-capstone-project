@@ -15,8 +15,8 @@ import Button from 'react-bootstrap/Button'
 
 export const UserProfile = () => {
   const { user, setUser } = useContext(UserContext)
-  const [errors, setErrors] = useState([])
-  const [userData, setUserData] = useState({
+  const [ errors, setErrors ] = useState([])
+  const [ userData, setUserData ] = useState({
     username: user.username,
     email: user.email,
     full_name: user.full_name,

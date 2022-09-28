@@ -1,5 +1,6 @@
 import { useContext, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
+import { v4 as uuid } from "uuid"
 import { UserContext } from "../tools/hooks"
 
 import Styles from "../styles/LoginSignup.style"
@@ -14,8 +15,8 @@ import Button from 'react-bootstrap/Button'
 
 export const UserReset = () => {
   const { user, setUser } = useContext(UserContext)
-  const [errors, setErrors] = useState([])
-  const [passwordData, setPasswordData] = useState({
+  const [ errors, setErrors ] = useState([])
+  const [ passwordData, setPasswordData ] = useState({
     username: user.username,
     full_name: user.full_name,
     email: user.email,
@@ -70,7 +71,7 @@ export const UserReset = () => {
           <Col xs={12} lg={10} className="home-center">
             <Card className="form-card">
               <Form onSubmit={handleVerifySubmit} className="form">
-                {errors ? errors.map(e => <section>{e}</section>) : null}
+                {errors ? errors.map(e => <section key={uuid()}>{e}</section>) : null}
                 <Form.Group>
                   <Form.Label htmlFor="password">New Password</Form.Label>
                   <Form.Control type="password" name="password" className="form-file-input" onChange={handlePasswordChange}/>

@@ -7,6 +7,10 @@ const GlobalStyle = createGlobalStyle`
   padding: 0;
 }
 
+section {
+    color: #ED5E53;
+  }
+
 `
 
 export default GlobalStyle

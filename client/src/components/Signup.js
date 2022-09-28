@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { NavButton } from "../tools/hooks"
+import { v4 as uuid } from "uuid"
 
 import Styles from "../styles/LoginSignup.style"
 
@@ -55,7 +55,7 @@ export const Signup = () => {
           <Col xs={10} md={8} lg={6} className="home-center">
             <Card className="form-card">
               <Form onSubmit={handleSignupSubmit} className="form">
-                {errors ? errors.map(e => <section>{e}</section>) : null}
+                {errors ? errors.map(e => <section key={uuid()}>{e}</section>) : null}
                 <Form.Group className="form-floating">
                   <Form.Control type="text" name="username" placeholder="floating" className="form-file-input"/>
                   <Form.Label htmlFor="username">Username</Form.Label>
