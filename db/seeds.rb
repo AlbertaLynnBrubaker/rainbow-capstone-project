@@ -23,7 +23,7 @@ admin.avatar.attach(
   io: File.open(Rails.root.join('avatar_blank.png')), filename: 'avatar_blank.png', content_type: 'image/png')
 
 while User.all.length <= 600 do 
-  u = User.create(username: Faker::Internet.unique.username, password: "123", password_confirmation: "123", email: Faker::Internet.unique.email, full_name: Faker::Name.unique.name, age: Faker::Number.within(range: 13..45), bio: Faker::Hipster.paragraphs(number: 1) )
+  u = User.create(username: Faker::Internet.unique.username, password: "123", password_confirmation: "123", email: Faker::Internet.unique.email, full_name: Faker::Name.unique.name, age: Faker::Number.within(range: 13..45), bio: (Faker::Hipster.paragraphs(number: 1)).split('"')[0][0] )
   u.avatar.attach(
     io: File.open(Rails.root.join('avatar_blank.png')), filename: 'avatar_blank.png', content_type: 'image/png')
 end
@@ -31,13 +31,13 @@ end
 puts "spreading the gay agenda..."
 
 3000.times do
-  Post.create(content: Faker::Hipster.paragraphs(number: 1), user_id: User.where('id > 2').sample.id)
+  Post.create(content: (Faker::Hipster.paragraphs(number: 1).split('"')[0][0]), user_id: User.where('id > 2').sample.id)
 end
 
 puts "sewing the seeds of the destruction of the Cishet Hegemony..."
 
 6000.times do
-  Comment.create(content: Faker::Hipster.paragraphs(number: 1), post_id: Post.all.sample.id, user_id: User.where('id > 2').sample.id)
+  Comment.create(content: (Faker::Hipster.paragraphs(number: 1).split('"')[0][0]), post_id: Post.all.sample.id, user_id: User.where('id > 2').sample.id)
 end
 
 puts "finished creating the Anarco-Syndacalist Gay Paradise we all yearn for!"

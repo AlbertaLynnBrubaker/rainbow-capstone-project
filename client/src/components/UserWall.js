@@ -22,7 +22,6 @@ export const UserWall = () => {
   const [ errors, setErrors ] = useState([])
   const [posts, setPosts] = useState([])
   const [postLength, setPostLength] = useState(10)
-  const [bannerName, setBannerName] = useState("")
   const [hasMore, setHasMore] = useState(true)
   
 
@@ -35,7 +34,6 @@ export const UserWall = () => {
           r.json().then(data => {
             setPosts(data.posts)
             setPostLength(data.length)
-            setBannerName(data.user_name)
           })  
         }
       })
