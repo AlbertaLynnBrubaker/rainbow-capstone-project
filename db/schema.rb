@@ -63,6 +63,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_21_191858) do
     t.string "full_name"
     t.integer "age"
     t.text "bio"
+    t.string "pronouns"
     t.boolean "admin", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
