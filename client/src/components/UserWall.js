@@ -25,7 +25,7 @@ export const UserWall = () => {
   const params = useParams()
 
   if(page === 0){
-    fetch(`/posts?page=0`)
+    fetch(`/${params.username}?page=0`)
       .then(r => {
         if(r.ok) {
           r.json().then(data => {
@@ -106,7 +106,7 @@ export const UserWall = () => {
         <Row >
           <Col ></Col>
           <Col lg={8} id="scrollable-div" >
-            {user ?
+            {user.username === params.username ?
             <Card className="form-card"> 
               <Form onSubmit={handlePostSubmit}>
               {errors ? errors.map(e => <section key={uuid()}>{e}</section>) : null}        
