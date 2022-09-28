@@ -1,24 +1,23 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { v4 as uuid } from 'uuid'
-import { UserContext } from '../tools/hooks'
+import { ErrorContext, UserContext } from '../tools/hooks'
 import { CommentCard } from './CommentCard'
 import { ToggleEditPost } from './ToggleEditPost'
 
 import Styles from '../styles/Post.style'
 
 import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
 export const PostCard = ({post, setPosts, handleDeletePost}) => {
   const { user } = useContext(UserContext)
-  const [isEditPost, setIsEditPost] = useState(false)
-  const [isCommentClicked, setIsCommentClicked] = useState(false)
-  const [ comments, setComments ] = useState([])
   const [ errors, setErrors ] = useState([])
+  const [ isEditPost, setIsEditPost ] = useState(false)
+  const [ isCommentClicked, setIsCommentClicked ] = useState(false)
+  const [ comments, setComments ] = useState([])
+  
 
   const handleCommentClick = () => {
     setIsCommentClicked(!isCommentClicked)
@@ -28,7 +27,7 @@ export const PostCard = ({post, setPosts, handleDeletePost}) => {
     setIsEditPost(!isEditPost)
   }
 
-  useEffect(() => {
+  useEffect(() => {    
     fetch(`/posts/${post.id}/comments`)
       .then(r => {
         if(r.ok) {
@@ -99,6 +98,7 @@ export const PostCard = ({post, setPosts, handleDeletePost}) => {
       }
       {user ?
         <Form onSubmit={handleCommentSubmit} className='comment-form'>
+          {errors ? errors.map(e => <section key={uuid()}>{e}</section>) : null} 
           <Form.Control as="textarea" placeholder='Add a comment' name='content' className='form-textarea'/>
           <Form.Group className="form-file-inline">
             <Form.Control type='file' name='comment_image' className='form-file-input'/>

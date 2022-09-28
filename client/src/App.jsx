@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route,} from 'react-router-dom'
-import { AuthRoute, PageProvider, UserProvider } from './tools/hooks';
+import { AuthRoute, ErrorProvider, PageProvider, UserProvider } from './tools/hooks';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
@@ -26,7 +26,7 @@ function App() {
   const [logoUrl, setLogoUrl] = useState('')
 
   useEffect(() => {
-    fetch('/background?page=0')
+    fetch('/background')
       .then(r => r.json())
       .then((data) => {
         setBackgroundUrl(data.background_url)
@@ -38,21 +38,20 @@ function App() {
     <>
     <GlobalStyle />
     <UserProvider >
-      <PageProvider>
-        <Background url={backgroundUrl}>
-          
+      <PageProvider>        
+        <Background url={backgroundUrl}>          
           <Navigation logoUrl={logoUrl} />
-            <Routes>
-              <Route index element= {<AuthRoute><Home /></AuthRoute>} />
-              <Route path="/:username/profile" element= {<AuthRoute ><UserProfile /></AuthRoute>}/>
-              <Route path="/:username/password" element= {<AuthRoute><UserReset /></AuthRoute>}/>
-              <Route path="/:username/delete" element= {<AuthRoute><UserDelete /></AuthRoute>}/>
-              <Route path="/:username" element= {<AuthRoute ><UserWall /></AuthRoute>}/>
-              <Route path="*" element= {<NotFound />}/>  
-              <Route path="/login" element= {<Login />}/>
-              <Route path="/signup" element= {<Signup />}/>
-            </Routes>
-          </Background>
+          <Routes>
+            <Route index element= {<AuthRoute><Home /></AuthRoute>} />
+            <Route path="/:username/profile" element= {<AuthRoute ><UserProfile /></AuthRoute>}/>
+            <Route path="/:username/password" element= {<AuthRoute><UserReset /></AuthRoute>}/>
+            <Route path="/:username/delete" element= {<AuthRoute><UserDelete /></AuthRoute>}/>
+            <Route path="/:username" element= {<AuthRoute ><UserWall /></AuthRoute>}/>
+            <Route path="*" element= {<NotFound />}/>  
+            <Route path="/login" element= {<Login />}/>
+            <Route path="/signup" element= {<Signup />}/>
+          </Routes>
+        </Background>        
       </PageProvider>
     </UserProvider>
     </>

@@ -1,34 +1,13 @@
 import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { v4 as uuid } from 'uuid'
 import { UserContext, PageContext } from '../tools/hooks'
 
 import Styles from '../styles/Comment.style'
 
 import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-
-//temp avatar styling
-const style = {
-  height: 40,
-  width: 'auto',
-  border: "1px solid black",
-  borderRadius: 40,
-  marginLeft: 6
-}
-
-//temp avatar styling
-const imageStyle = {
-  height: 400,
-  width: 'auto',
-  border: "1px solid black",
-  
-  marginLeft: 6
-}
-
 
 export const EditComment = ({comment, setComments, isEditComment, setIsEditComment, handleDeleteComment}) => {
   const { user, setUser } = useContext(UserContext)
@@ -86,7 +65,10 @@ export const EditComment = ({comment, setComments, isEditComment, setIsEditComme
             <h6 className='user-avatar-text'>{comment.user.pronouns}</h6>
           </Link>
       <Form onSubmit={handlePatchSubmit} className="edit-comment-form">
-        <Container className='comment-img-container'>{comment.comment_image_url ? <img src={comment.comment_image_url} alt="post" className='comment-img' /> : null}</Container>
+        {errors ? errors.map(e => <section key={uuid()}>{e}</section>) : null} 
+        <Container className='comment-img-container'>
+          {comment.comment_image_url ? <img src={comment.comment_image_url} alt="post" className='comment-img' /> : null}
+        </Container>
         <Form.Control as="textarea" name="content" value={commentContent} onChange={handleContentChange} className="form-textarea"/>
         <Form.Group className='form-file-inline'>
           <Form.Control type="File" name="comment_image" className="form-file-input"/>

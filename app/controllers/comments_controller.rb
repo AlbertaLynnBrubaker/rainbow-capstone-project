@@ -3,12 +3,9 @@ class CommentsController < ApplicationController
 
   def index
     comments = Comment.where(post_id: params[:post_id])
-    # Post.find(params[:post_id]).comments
-    # byebug
     comments_map = comments.map { |comment|
       CommentSerializer.new(comment).serializable_hash[:data][:attributes]
-    }
-  
+    }  
     render json: comments_map, status: :ok
   end
 
@@ -19,7 +16,7 @@ class CommentsController < ApplicationController
 
   def update
     comment = find_comment
-    comment.update(comment_params)
+    comment.update!(comment_params)
     render json: CommentSerializer.new(comment).serializable_hash[:data][:attributes], status: :accepted
   end
 

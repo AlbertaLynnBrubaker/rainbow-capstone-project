@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { PageContext, UserContext } from '../tools/hooks'
+import { v4 as uuid } from 'uuid'
+import { ErrorContext, PageContext, UserContext } from '../tools/hooks'
 
 import Styles from '../styles/Post.style'
 
@@ -10,8 +11,9 @@ import Button from 'react-bootstrap/Button'
 export const ToggleEditPost = ({ post, setPosts, isEditPost, setIsEditPost }) => {
     const { user } = useContext(UserContext)
     const { setPage } = useContext(PageContext)
+    const [ errors, setErrors ] = useState([])
     const [ postContent, setPostContent ] = useState(post.content)
-    const [errors, setErrors] = useState([])
+    
 
   const handleContentChange = (e) => {
     setPostContent(e.target.value)
@@ -62,7 +64,7 @@ export const ToggleEditPost = ({ post, setPosts, isEditPost, setIsEditPost }) =>
           <h6 className='user-avatar-text'>{post.user.pronouns}</h6>      
         </Link>
         <Form onSubmit={handlePatchSubmit} className="post-form" >
-
+        {errors ? errors.map(e => <section key={uuid()}>{e}</section>) : null} 
           {post.image_url ? <img src={post.image_url} alt="post" className="post-img" /> : null}
           <Form.Control as="textarea" name="content" value={postContent} onChange={handleContentChange} className="form-textarea" />          
           <Form.Group className="form-file-inline">

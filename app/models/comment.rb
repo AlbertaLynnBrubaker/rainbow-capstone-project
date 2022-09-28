@@ -2,7 +2,7 @@ class Comment < ApplicationRecord
   belongs_to :post
   belongs_to :user  
 
-  has_one_attached :comment_image
+  has_one_attached :comment_image, dependent: :purge_later
 
   validates :content, presence: true
 

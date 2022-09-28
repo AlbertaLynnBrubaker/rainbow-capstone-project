@@ -14,12 +14,12 @@ import Button from 'react-bootstrap/Button'
 
 
 export const Login = () => {
-  const { user, setUser } = useContext(UserContext)
-  const [loginData, setLoginData] = useState({
+  const { setUser } = useContext(UserContext)
+  const [ loginData, setLoginData ] = useState({
     username: "",
     password: ""
   })
-  const [errors, setErrors] = useState([])
+  const [ errors, setErrors ] = useState([])
 
   const navigate = useNavigate()
 

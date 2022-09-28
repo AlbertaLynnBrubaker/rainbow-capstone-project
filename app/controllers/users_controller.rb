@@ -5,7 +5,7 @@ class UsersController < ApplicationController
     render json: UserSerializer.new(current_user).serializable_hash[:data][:attributes], status: :ok
   end
 
-  def background    
+  def background
     bg = User.find_by(username: 'background')
     logo = User.find_by(username: 'logo')
     background_url = {background_url: bg.avatar_url, logo_url: logo.avatar_url}
@@ -13,7 +13,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    user = User.create(user_params)
+    user = User.create!(user_params)
     if user.valid?
       session[:user_id] = user.id
       render json: UserSerializer.new(user).serializable_hash[:data][:attributes], status: :created

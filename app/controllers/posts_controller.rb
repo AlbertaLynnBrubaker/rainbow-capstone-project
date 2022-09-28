@@ -17,14 +17,14 @@ class PostsController < ApplicationController
   end
 
   def create    
-    post = Post.create(post_params)
+    post = Post.create!(post_params)
     # byebug
     render json: PostSerializer.new(post).serializable_hash[:data][:attributes], status: :created
   end
 
   def update
     post = find_post
-    post.update(post_params)
+    post.update!(post_params)
     render json: PostSerializer.new(post).serializable_hash[:data][:attributes], status: :accepted
   end
 
