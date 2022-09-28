@@ -4,24 +4,14 @@ import { UserContext } from '../tools/hooks'
 import { CommentCard } from './CommentCard'
 import { ToggleEditPost } from './ToggleEditPost'
 
+import Styles from '../styles/Post.style'
 
-// //temp avatar styling
-// const style = {
-//   height: 40,
-//   width: 'auto',
-//   border: "1px solid black",
-//   borderRadius: 40,
-//   marginLeft: 6
-// }
-
-// //temp avatar styling
-// const imageStyle = {
-//   height: 400,
-//   width: 'auto',
-//   border: "1px solid black",
-  
-//   marginLeft: 6
-// }
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Card from 'react-bootstrap/Card'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 
 export const PostCard = ({post, setPosts, handleDeletePost}) => {
   const { user } = useContext(UserContext)
@@ -90,38 +80,40 @@ export const PostCard = ({post, setPosts, handleDeletePost}) => {
     if(isCommentClicked || comments.length <= 1) {
       return null
     } else {
-      return <button onClick={ handleCommentClick }>View more comments</button>
+      return <Button onClick={ handleCommentClick } className='form-submit'>View more comments...</Button>
     }
   }
   const hideComment = singleCommentHideButton()
 
   return (
-    <div>      
+    <Styles>
+      <Card className='post-card'>     
       <ToggleEditPost post={post} setPosts={setPosts} isEditPost={isEditPost} setIsEditPost={setIsEditPost}/>
-      <br/>
       {post.user.id === user.id ?
-        <>
-          {isEditPost ? null: <button onClick={handleEditPost}>Edit Post</button>}
-          <button onClick={() => handleDeletePost(post.id)}>Remove Post</button>
-        </>
+        <Container className='btn-container'>
+          {isEditPost ? null: <Button onClick={handleEditPost} className="form-submit">Edit Post</Button>}
+          <Button onClick={() => handleDeletePost(post.id)} className="form-submit">Remove Post</Button>
+        </Container>
       :
         null
       }
       {user ?
-        <form onSubmit={handleCommentSubmit}>
-          <textarea placeholder='Add a comment' name='content'/>
-          <input type='file' name='comment_image' />
-          <input type='submit' />
-        </form> 
+        <Form onSubmit={handleCommentSubmit} className='comment-form'>
+          <Form.Control as="textarea" placeholder='Add a comment' name='content' className='form-textarea'/>
+          <Form.Group className="form-file-inline">
+            <Form.Control type='file' name='comment_image' className='form-file-input'/>
+            <Button type='submit' className='form-submit'>Add Comment</Button>
+          </Form.Group>
+        </Form> 
       : 
         null
       }      
       {isCommentClicked ?
-        <div>{comments.map( comment => {
+        <Container>{comments.map( comment => {
           return <CommentCard key={uuid()} comment={comment} setComments={setComments} onDeleteComment={onDeleteComment} />
         }
-        )}</div> :
-        <div>
+        )}</Container> :
+        <Container>
           {comments[0]? 
             <>
               <CommentCard key={uuid()} comment={comments[0]} setComments={setComments} onDeleteComment={onDeleteComment} /> 
@@ -130,8 +122,9 @@ export const PostCard = ({post, setPosts, handleDeletePost}) => {
           : 
             null
           }        
-        </div>    
+        </Container>    
       }
-    </div>
+      </Card> 
+    </Styles>
   )
 }

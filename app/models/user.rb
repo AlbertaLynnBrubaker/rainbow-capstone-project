@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   has_one_attached :avatar
 
-  validates :username, :email, :password, :password_confirmation, presence: true
+  validates :username, :email, presence: true
   validates :username, uniqueness: true
   validates :username, format: { with: /\A[a-z0-9A-Z]+\z/ }
   validates :full_name, format: { with: /\A[a-zA-Z ]+\z/ }

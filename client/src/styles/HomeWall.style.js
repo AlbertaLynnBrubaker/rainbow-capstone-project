@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 const Styles = styled.div`
   padding-top: 50px;
+
   #scrollable-div {
     height: calc(100vh - 50px);
     width: 1fr;
@@ -13,7 +14,7 @@ const Styles = styled.div`
   }
 
   .form-card {   
-    margin: 20px 0; 
+    margin: 20px 5px; 
     padding: 1.1rem;
     border-radius: 15px;
     border: 1px solid lightgray;
@@ -60,7 +61,6 @@ const Styles = styled.div`
   }
 
   .form-file-inline {
-    /* padding-top: 1rem; */
     display: flex;
     justify-content: space-evenly;
   }

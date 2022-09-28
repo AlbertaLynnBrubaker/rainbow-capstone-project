@@ -25,7 +25,7 @@ class UsersController < ApplicationController
   def update
     user = current_user
     user.update!(user_params)
-    render json: user, status: :accepted
+    render json: UserSerializer.new(user).serializable_hash[:data][:attributes], status: :accepted
   end
 
   def destroy
@@ -36,6 +36,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:username, :email, :avatar, :password, :password_confirmation)
+    params.require(:user).permit(:username, :email, :avatar, :password, :password_confirmation, :bio, :age, :full_name)
   end
 end

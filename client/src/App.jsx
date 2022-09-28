@@ -9,6 +9,8 @@ import { Home } from './components/Home'
 import { Login } from './components/Login'
 import { Signup } from './components/Signup'
 import { UserProfile } from './components/UserProfile'
+import { UserReset } from './components/UserReset';
+import { UserDelete } from './components/UserDelete';
 import { UserWall } from './components/UserWall'
 import { NotFound } from './components/NotFound'
 import { Navigation } from './components/Navigation';
@@ -43,6 +45,8 @@ function App() {
             <Routes>
               <Route index element= {<AuthRoute><Home /></AuthRoute>} />
               <Route path="/:username/profile" element= {<AuthRoute ><UserProfile /></AuthRoute>}/>
+              <Route path="/:username/password" element= {<AuthRoute><UserReset /></AuthRoute>}/>
+              <Route path="/:username/delete" element= {<AuthRoute><UserDelete /></AuthRoute>}/>
               <Route path="/:username" element= {<AuthRoute ><UserWall /></AuthRoute>}/>
               <Route path="*" element= {<NotFound />}/>  
               <Route path="/login" element= {<Login />}/>

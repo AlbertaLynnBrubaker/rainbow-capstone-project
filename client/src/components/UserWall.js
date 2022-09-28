@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
 import { useParams } from "react-router-dom"
+import { v4 as uuid } from "uuid"
 import { PageContext, UserContext } from "../tools/hooks"
 import { PostCard } from "./PostCard"
 
@@ -21,7 +22,6 @@ export const UserWall = () => {
   const [ errors, setErrors ] = useState([])
   const [posts, setPosts] = useState([])
   const [postLength, setPostLength] = useState(10)
-  const [bannerName, setBannerName] = useState("")
   const [hasMore, setHasMore] = useState(true)
   
 
@@ -34,7 +34,6 @@ export const UserWall = () => {
           r.json().then(data => {
             setPosts(data.posts)
             setPostLength(data.length)
-            setBannerName(data.user_name)
           })  
         }
       })
@@ -101,13 +100,6 @@ export const UserWall = () => {
       })
   }
 
-  const topFunction = () => {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
-  }
-
-  console.log(page)
-
   return(
     <Styles>
         <Container className="content-container" fluid="sm">
@@ -131,12 +123,12 @@ export const UserWall = () => {
               loader={posts[0] ? <h4>Loading...</h4> : null}
               scrollableTarget="scrollable-div"
               endMessage={
-                <button onClick={topFunction}>Back to top</button>
+                <h6>End of content</h6>
               }>{posts.map(post => {
                 
                 return (
                 <>            
-                  <PostCard key={post.id} post= {post} posts={posts} setPosts={setPosts} handleDeletePost={handleDeletePost} />
+                  <PostCard key={uuid()} post= {post} posts={posts} setPosts={setPosts} handleDeletePost={handleDeletePost} />
                 </>
                 )}
               )}</InfiniteScroll>        

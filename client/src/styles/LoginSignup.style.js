@@ -1,8 +1,54 @@
 import styled from "styled-components";
 
 const Styles = styled.div`
+  padding-top: 50px;
+
   .content-container {
-    padding-top: 80px;
+    padding: 20px 0;
+    height: calc(100vh - 50px);
+    width: 1fr;
+    overflow: auto;
+
+    ::-webkit-scrollbar {
+      display: none
+    }
+  }
+
+  .avatar-container {
+    display: flex;
+    justify-content: space-around;
+    width: 59%;
+  }
+
+  .profile-img {    
+    height: auto;
+    width: 30%;
+    border: 1px solid #8C72BB;
+    border-radius: 10px;
+    object-fit: contain;
+  }
+
+  .delete-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .delete-card {
+    padding: 1.1rem;
+    border-radius: 15px;
+    border: 1px solid lightgray;
+    box-shadow: 2px 2px 8px grey;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    width: 50%;
+  }
+
+  .profile-password-container {
+    display: flex;
+    justify-content: space-between;
+    align-content: baseline;
+    margin-bottom: 5px;
   }
 
   .form-card {
@@ -40,6 +86,18 @@ const Styles = styled.div`
     color: white;
     background-color: #8C72BB;
     border: 2px solid #8C72BB;
+  }
+
+  .form-delete {
+    color: black;
+    background-color: lavender;
+    border: 2px solid white;
+  }
+
+  .form-delete:hover {
+    color: white;
+    background-color: #ED5E53;
+    border: 2px solid #ED5E53;
   }
 `
 
