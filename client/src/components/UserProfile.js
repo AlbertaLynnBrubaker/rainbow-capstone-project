@@ -1,6 +1,7 @@
 import { useContext, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { UserContext } from "../tools/hooks"
+import { v4 as uuid } from "uuid"
 
 import Styles from "../styles/LoginSignup.style"
 
@@ -20,8 +21,10 @@ export const UserProfile = () => {
     email: user.email,
     full_name: user.full_name,
     age: user.age,
-    bio: user.bio
+    bio: user.bio,
+    pronouns: user.pronouns
   })
+  const pronouns = ["he/him", "she/her", "they/them"]
   
   const params = useParams()
   const navigate = useNavigate()
@@ -40,6 +43,7 @@ export const UserProfile = () => {
     data.append('user[email]', userData.email)
     data.append('user[full_name]', userData.full_name)
     data.append('user[bio]', userData.bio)
+    data.append('user[pronouns]', userData.pronouns)
     data.append('user[age]', parseInt(userData.age))
     if(e.target.avatar.files[0]){data.append('user[avatar]', e.target.avatar.files[0])}
     submitToAPI(data)
@@ -63,6 +67,10 @@ export const UserProfile = () => {
     })
   }
 
+  const pronounArray = pronouns.map(pronoun => {
+    return <option key={uuid()}>{pronoun}</option>
+  })
+
   const renderPasswordForm = () => {
     navigate(`/${user.username}/password`)
   }
@@ -81,7 +89,7 @@ export const UserProfile = () => {
           <Col></Col>
           <Col xs={12} lg={10} className="home-center">
             <Card className="form-card">
-              <Form onSubmit={handleProfileSubmit} className="form">
+              <Form onSubmit={handleProfileSubmit} className="form">                
                 {errors ? errors.map(e => <section>{e}</section>) : null}                
                 <Form.Group>
                   <Form.Group className="profile-password-container">
@@ -94,13 +102,30 @@ export const UserProfile = () => {
                   <Form.Group className="profile-password-container">
                     <Form.Label htmlFor="email">Email</Form.Label>
                     <Button className="form-delete" onClick={renderDeleteForm}>Delete Account</Button>
-                 </Form.Group>
+                </Form.Group>
                   <Form.Control type="text" name="email" className="form-file-input" value={userData.email} onChange={handleProfileChange}/>
                 </Form.Group>                
                 <Form.Group>
                   <Form.Label htmlFor="full_name">Full Name</Form.Label>
                   <Form.Control type="text" name="full_name" className="form-file-input" value={userData.full_name} onChange={handleProfileChange}/>
                 </Form.Group>
+                {user.pronouns ?
+                <Form.Group>
+                  <Form.Label htmlFor="pronouns">Pronouns</Form.Label>
+                  <Form.Select name="pronouns"  className="form-file-input" value={userData.pronouns} onChange={handleProfileChange}>
+                    <option key={uuid()} disabled muted>{userData.pronouns}</option>
+                    {pronounArray}
+                  </Form.Select>
+                </Form.Group>
+                :
+                <Form.Group>
+                  <Form.Label htmlFor="pronouns">Pronouns</Form.Label>
+                  <Form.Select name="pronouns" className="form-file-input" value={userData.pronouns} onChange={handleProfileChange}>
+                    <option key={uuid()} default disabled muted>Select your pronouns</option>
+                    {pronounArray}
+                  </Form.Select>
+                </Form.Group>
+                }
                 {user.age ?
                 <Form.Group>
                   <Form.Label htmlFor="age">Age</Form.Label>
