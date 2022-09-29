@@ -12,6 +12,7 @@ import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import { LeftSidebar } from "./LeftSidebar"
 
 
 export const Home = () => {
@@ -19,6 +20,7 @@ export const Home = () => {
   const { page, setPage } = useContext(PageContext)
   const [ errors, setErrors ] = useState([])
   const [ posts, setPosts ] = useState([])
+  const [ groups, setGroups ] = useState([1])
   const [ postLength, setPostLength ] = useState(10)
   const [ hasMore, setHasMore ] = useState(true)
   
@@ -64,6 +66,7 @@ export const Home = () => {
       data.append('post[image]', e.target.image.files[0])
     }
     submitToAPI(data)
+    e.target.reset()
   }
 
   const submitToAPI = (data) => {    
@@ -101,7 +104,10 @@ export const Home = () => {
     <Styles>
       <Container className="content-container" fluid="sm">
         <Row >
-          <Col ></Col>
+          {groups.length > 0 ? <Col className="d-none d-lg-flex">
+            <LeftSidebar />
+          </Col> :
+          <Col></Col>}
           <Col lg={8} id="scrollable-div" >
             {user ? 
             <Card className="form-card">
@@ -127,7 +133,7 @@ export const Home = () => {
               }
             )}</InfiniteScroll>
         </Col>
-        <Col ></Col>
+        <Col className="d-none d-lg-flex"></Col>
         </Row>        
       </Container>
     </Styles>    

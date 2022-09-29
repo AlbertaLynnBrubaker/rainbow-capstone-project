@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route,} from 'react-router-dom'
-import { AuthRoute, ErrorProvider, PageProvider, UserProvider } from './tools/hooks';
+import { AuthRoute, PageProvider, UserContext, UserProvider } from './tools/hooks';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
@@ -14,16 +14,20 @@ import { UserDelete } from './components/UserDelete';
 import { UserWall } from './components/UserWall'
 import { NotFound } from './components/NotFound'
 import { Navigation } from './components/Navigation';
+import { GroupWall } from './components/GroupWall'
+import { LeftSidebar } from './components/LeftSidebar'
 
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import GlobalStyle from './GlobalStyles.style';
 import { Background } from './styles/Background.style';
+import { useContext } from 'react';
 
 
 function App() {
-  const [backgroundUrl, setBackgroundUrl] = useState('')
-  const [logoUrl, setLogoUrl] = useState('')
+  // const { user, setUser } = useContext(UserContext)
+  const [ backgroundUrl, setBackgroundUrl ] = useState('')
+  const [ logoUrl, setLogoUrl ] = useState('')
 
   useEffect(() => {
     fetch('/background')
@@ -39,7 +43,7 @@ function App() {
     <GlobalStyle />
     <UserProvider >
       <PageProvider>        
-        <Background url={backgroundUrl}>          
+        <Background url={backgroundUrl}>      
           <Navigation logoUrl={logoUrl} />
           <Routes>
             <Route index element= {<AuthRoute><Home /></AuthRoute>} />
@@ -47,6 +51,7 @@ function App() {
             <Route path="/:username/password" element= {<AuthRoute><UserReset /></AuthRoute>}/>
             <Route path="/:username/delete" element= {<AuthRoute><UserDelete /></AuthRoute>}/>
             <Route path="/:username" element= {<AuthRoute ><UserWall /></AuthRoute>}/>
+            <Route path="/groups/:group_title" element= {<AuthRoute ><GroupWall /></AuthRoute>}/>
             <Route path="*" element= {<NotFound />}/>  
             <Route path="/login" element= {<Login />}/>
             <Route path="/signup" element= {<Signup />}/>

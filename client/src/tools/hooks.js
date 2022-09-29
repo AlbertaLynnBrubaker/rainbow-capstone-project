@@ -42,15 +42,15 @@ export const PageProvider = ({children}) => {
 
 export const Logout = () => {
   const { user, setUser } = useContext(UserContext)
-  const nav = useNavigate()
+  const nav = useNavigate()  
   
-  const handleLogout = () => {
+  const handleLogout = () => {    
     fetch('/logout', {
       method: "DELETE"
     })
       .then(() => {
         setUser("")
-        nav('/login')
+        nav('/login')        
       })
   }
 
@@ -61,7 +61,6 @@ export const Logout = () => {
 
 export const AuthRoute = ({children}) => {
   const {user, setUser} = useContext(UserContext)
-
 
   useEffect(() => {
     fetch('/me')

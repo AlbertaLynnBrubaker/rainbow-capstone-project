@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :memberships
+  # resources :groups
   resources :comments, only: [:create, :update, :destroy]
   resources :posts
   resources :users, only: [:show, :update, :destroy]
@@ -10,6 +12,7 @@ Rails.application.routes.draw do
   get '/me', to: 'users#me'
   get '/:username', to: 'posts#wall'
   get '/posts/:post_id/comments', to: 'comments#index'
+  get '/groups/:group_title', to: 'groups#show'
   
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

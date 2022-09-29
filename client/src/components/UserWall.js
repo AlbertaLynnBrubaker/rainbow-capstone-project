@@ -65,6 +65,7 @@ export const UserWall = () => {
       data.append('post[image]', e.target.image.files[0])
     }
     submitToAPI(data)
+    e.target.reset()
   }
 
   const submitToAPI = (data) => {    

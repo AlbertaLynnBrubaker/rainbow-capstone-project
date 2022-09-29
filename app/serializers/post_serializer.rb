@@ -1,7 +1,5 @@
 class PostSerializer
   include JSONAPI::Serializer
 
-  attributes :id, :content, :user, :user_avatar, :created_at, :image, :image_url
-
-  
+  attributes :id, :content, :user, :user_avatar, :created_at, :image, :image_url  
 end
