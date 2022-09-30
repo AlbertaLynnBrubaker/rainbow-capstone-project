@@ -15,7 +15,7 @@ import { UserWall } from './components/UserWall'
 import { NotFound } from './components/NotFound'
 import { Navigation } from './components/Navigation';
 import { GroupWall } from './components/GroupWall'
-import { LeftSidebar } from './components/LeftSidebar'
+import { GroupList } from './components/GroupList'
 
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -51,7 +51,8 @@ function App() {
             <Route path="/:username/password" element= {<AuthRoute><UserReset /></AuthRoute>}/>
             <Route path="/:username/delete" element= {<AuthRoute><UserDelete /></AuthRoute>}/>
             <Route path="/:username" element= {<AuthRoute ><UserWall /></AuthRoute>}/>
-            <Route path="/groups/:group_title" element= {<AuthRoute ><GroupWall /></AuthRoute>}/>
+            <Route path="/groups/:title" element= {<AuthRoute ><GroupWall /></AuthRoute>}/>
+            <Route path="/groups" element= {<AuthRoute ><GroupList /></AuthRoute>}/>
             <Route path="*" element= {<NotFound />}/>  
             <Route path="/login" element= {<Login />}/>
             <Route path="/signup" element= {<Signup />}/>

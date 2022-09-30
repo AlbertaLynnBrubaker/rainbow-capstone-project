@@ -11,6 +11,10 @@ section {
     color: #ED5E53;
   }
 
+a {
+  text-decoration: none;
+}
+
 `
 
 export default GlobalStyle

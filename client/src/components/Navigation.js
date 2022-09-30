@@ -9,6 +9,7 @@ import { BsPersonCircle } from 'react-icons/bs'
 import { HiPencil } from 'react-icons/hi'
 import { MdHome, MdLock } from 'react-icons/md'
 import { RiProfileFill } from 'react-icons/ri'
+import { HiUserGroup } from 'react-icons/hi'
 
 export const Navigation = ({logoUrl}) => {
   const { user } = useContext(UserContext)
@@ -26,12 +27,14 @@ export const Navigation = ({logoUrl}) => {
           <Container className='center-flex'>
             <NavLink to="/" className='btn-nav' onClick={handleNavClick}><MdHome className='btn-icon'/></NavLink>
             <NavLink to={`/${user.username}`} className='btn-nav' onClick={handleNavClick}><RiProfileFill className='btn-icon'/></NavLink>
+            <NavLink to={`/groups`} className='btn-nav' onClick={handleNavClick}><HiUserGroup className='btn-icon'/></NavLink>
             <NavLink to={`/${user.username}/profile`} className='btn-nav' onClick={handleNavClick}><BsPersonCircle className='btn-icon'/></NavLink>
             <Logout />
           </Container>
         :
           <Container className='center-flex'>
             <NavLink to="/" className='btn-nav' onClick={handleNavClick}><MdHome className='btn-icon'/></NavLink>
+            <NavLink to={`/groups`} className='btn-nav' onClick={handleNavClick}><HiUserGroup className='btn-icon'/></NavLink>
             <NavLink to="/login" className='btn-nav' onClick={handleNavClick}><MdLock className='btn-icon'/></NavLink>
             <NavLink to="/signup" className='btn-nav' onClick={handleNavClick}><HiPencil className='btn-icon'/></NavLink>
           </Container>

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
 import { v4 as uuid } from 'uuid'
 
@@ -20,10 +20,13 @@ export const Home = () => {
   const { page, setPage } = useContext(PageContext)
   const [ errors, setErrors ] = useState([])
   const [ posts, setPosts ] = useState([])
-  const [ groups, setGroups ] = useState([1])
+  const [ userGroups, setUserGroups ] = useState([1])
   const [ postLength, setPostLength ] = useState(10)
   const [ hasMore, setHasMore ] = useState(true)
   
+  // useEffect(() => {
+  //   fetch('/groups')
+  // }, [])
 
   if(page === 0){    
     fetch(`/posts?page=0`)
@@ -100,14 +103,19 @@ export const Home = () => {
       })
   }
 
+  console.log(posts)
+
   return(   
     <Styles>
       <Container className="content-container" fluid="sm">
         <Row >
-          {groups.length > 0 ? <Col className="d-none d-lg-flex">
-            <LeftSidebar />
-          </Col> :
-          <Col></Col>}
+          {userGroups.length > 0 ? 
+            <Col className="d-none d-lg-flex">
+              <LeftSidebar />
+            </Col> 
+          :
+            <Col></Col>
+          }
           <Col lg={8} id="scrollable-div" >
             {user ? 
             <Card className="form-card">

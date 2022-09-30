@@ -11,7 +11,4 @@ class Membership < ApplicationRecord
     self.errors.add("A User can only be a member of a Group once") if members.find_by(user_id: self.user_id)
   end
 
-  # def one_group_per
-  #   self.errors.add("A Group can only have a User as a member once") if Membership.find_by(group_id: self.group_id)
-  # end
 end

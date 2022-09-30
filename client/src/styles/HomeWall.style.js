@@ -14,6 +14,45 @@ const Styles = styled.div`
     }
   }
 
+  .groups-list-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+
+    div {
+      width: 98%;
+    }
+  }
+
+  .group-card {   
+    width: 100%;
+    margin: 20px 5px; 
+    padding: 1.1rem;
+    border-radius: 15px;
+    border: 1px solid lightgray;
+    box-shadow: 2px 2px 8px grey;    
+    text-decoration: none;
+  }
+
+  .user-banner {
+    display: flex;
+    gap: 15px;
+    text-decoration: none;
+  }
+
+  .user-avatar-img {
+    height: 35px;
+    width: 35px;
+    border: 1px solid #8C72BB;
+    border-radius: 40px;
+    margin-left: 3px;
+  }
+
+  .user-avatar-text {
+    color: black;
+    text-decoration: none;
+  }
+
   .form-card {   
     margin: 20px 5px; 
     padding: 1.1rem;

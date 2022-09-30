@@ -11,4 +11,8 @@ class Group < ApplicationRecord
   def avatar_url
     Rails.application.routes.url_helpers.url_for(avatar) if avatar.attached?
   end
+
+  def blurb
+    "#{self.description[0..59]}..."
+  end
 end

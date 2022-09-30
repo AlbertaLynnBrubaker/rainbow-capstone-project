@@ -26,7 +26,7 @@ admin = User.create(username: "Alie", password: "123", password_confirmation: "1
 admin.avatar.attach(
   io: File.open(Rails.root.join('avatar_blank.png')), filename: 'avatar_blank.png', content_type: 'image/png')
 
-while User.all.length <= 40 do 
+while User.all.length <= 600 do 
   u = User.create(username: Faker::Internet.unique.username, password: "123", password_confirmation: "123", email: Faker::Internet.unique.email, full_name: Faker::Name.unique.name, pronouns: pronouns.sample, age: Faker::Number.within(range: 13..45), bio: Faker::Hipster.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 2) )
   u.avatar.attach(
     io: File.open(Rails.root.join('avatar_blank.png')), filename: 'avatar_blank.png', content_type: 'image/png')
@@ -34,21 +34,23 @@ end
 
 puts "forming elite cadres of post apocalypse trans cat-girl hunting squads"
 
-while Group.all.length <=10 do
+while Group.all.length <=150 do
   g = Group.create(title: Faker::Hipster.word, founder: User.all.sample.full_name, description: Faker::Hipster.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 6))
+  g.avatar.attach(
+    io: File.open(Rails.root.join('group_avatar.png')), filename: 'group_avatar.png', content_type: 'image/png')
 
   if(g.valid?)  
     a = Membership.create(group_id: g.id, user_id: User.where('id > 2').sample.id, is_admin: true)
 
 
 
-    10.times do
+    30.times do
       Membership.create(group_id: g.id, user_id: User.where('id > 2').sample.id)
       puts "memberships"
     end
 
     if(g.memberships.length > 0)
-      20.times do
+      50.times do
         po = Post.create(content: Faker::Hipster.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 6), user_id: g.memberships.sample.user_id, group_id: g.id )
         puts g.memberships.sample.user_id
       
@@ -62,17 +64,17 @@ while Group.all.length <=10 do
   puts "group"
 end
 
-# puts "spreading the gay agenda..."
+puts "spreading the gay agenda..."
 
-# 20.times do
-#   Post.create(content: Faker::Hipster.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 6), user_id: User.where('id > 2').sample.id, group_id: nil)
-# end
+2000.times do
+  Post.create(content: Faker::Hipster.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 6), user_id: User.where('id > 2').sample.id, group_id: nil)
+end
 
-# puts "sewing the seeds of the destruction of the Cishet Hegemony..."
+puts "sewing the seeds of the destruction of the Cishet Hegemony..."
 
-# 20.times do
-#   Comment.create(content: Faker::Hipster.paragraph(sentence_count: 1, supplemental: false, random_sentences_to_add: 3), post_id: Post.all.sample.id, user_id: User.where('id > 2').sample.id)
-# end
+5000.times do
+  Comment.create(content: Faker::Hipster.paragraph(sentence_count: 1, supplemental: false, random_sentences_to_add: 3), post_id: Post.all.sample.id, user_id: User.where('id > 2').sample.id)
+end
 
 
 

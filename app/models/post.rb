@@ -14,6 +14,14 @@ class Post < ApplicationRecord
   def user_avatar
     self.user.avatar_url
   end
+
+  def group_data
+    if(self.group)
+      title = self.group.title
+      avatar = self.group.avatar_url
+      group_data = {title: title, avatar: avatar}
+    end
+  end
 end
 
 
