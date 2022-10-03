@@ -5,6 +5,12 @@ Membership.destroy_all
 Group.destroy_all
 User.destroy_all
 
+Comment.reset_pk_sequence
+Post.reset_pk_sequence
+Membership.reset_pk_sequence
+Group.reset_pk_sequence
+User.reset_pk_sequence
+
 puts "creating new agents of change..."
 
 pronouns = ["he/him", "she/her", "they/them"]
@@ -34,10 +40,10 @@ end
 
 puts "forming elite cadres of post apocalypse trans cat-girl hunting squads"
 
-while Group.all.length <=150 do
+while Group.all.length <=120 do
   g = Group.create(title: Faker::Hipster.word, founder: User.all.sample.full_name, description: Faker::Hipster.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 6))
   g.avatar.attach(
-    io: File.open(Rails.root.join('group_avatar.png')), filename: 'group_avatar.png', content_type: 'image/png')
+    io: File.open(Rails.root.join('group-avatar-white.png')), filename: 'group-avatar-white.png', content_type: 'image/png')
 
   if(g.valid?)  
     a = Membership.create(group_id: g.id, user_id: User.where('id > 2').sample.id, is_admin: true)
@@ -46,22 +52,18 @@ while Group.all.length <=150 do
 
     30.times do
       Membership.create(group_id: g.id, user_id: User.where('id > 2').sample.id)
-      puts "memberships"
     end
 
     if(g.memberships.length > 0)
       50.times do
         po = Post.create(content: Faker::Hipster.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 6), user_id: g.memberships.sample.user_id, group_id: g.id )
-        puts g.memberships.sample.user_id
       
         rand(1..3).times do
         Comment.create(content: Faker::Hipster.paragraph(sentence_count: 1, supplemental: false, random_sentences_to_add: 3), post_id: po.id, user_id: g.memberships.sample.user_id)
         end
-        puts "posts and comments"
       end
     end
   end
-  puts "group"
 end
 
 puts "spreading the gay agenda..."

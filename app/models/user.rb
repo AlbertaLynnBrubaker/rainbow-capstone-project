@@ -21,4 +21,10 @@ class User < ApplicationRecord
   def first_name
     self.full_name.split(' ')[0]
   end
+
+  def group_titles
+    if self.groups
+      self.groups.pluck(:title)
+    end
+  end
 end

@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   get '/me', to: 'users#me'
   get '/:username', to: 'posts#wall'
   get '/posts/:post_id/comments', to: 'comments#index'
-  get '/groups/:group_title', to: 'groups#show'
+  get '/groups/:title', to: 'groups#show'
   
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

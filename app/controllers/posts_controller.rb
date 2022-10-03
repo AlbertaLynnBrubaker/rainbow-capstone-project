@@ -16,8 +16,8 @@ class PostsController < ApplicationController
     render json: post_map_data(posts, length, user), status: :ok
   end
 
-  def create    
-    post = Post.create!(post_params)
+  def create  
+    post = Post.create!(post_params)    
     render json: PostSerializer.new(post).serializable_hash[:data][:attributes], status: :created
   end
 
@@ -48,7 +48,7 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:content, :user_id, :image, :page, :user, :user_avatar)
+    params.require(:post).permit(:content, :user_id, :image, :page, :user, :user_avatar, :group_id)
   end
 
 end

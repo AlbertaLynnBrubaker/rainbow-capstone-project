@@ -34,10 +34,26 @@ const Styles = styled.div`
     text-decoration: none;
   }
 
+  .group-avatar-img {
+    height: 35px;
+    width: 35px;
+    border: 1px solid #8C72BB;
+    border-radius: 35px;
+    margin-left: 3px;
+  }
+
+  .group-avatar-text {
+    color: black;
+  }
+
   .user-banner {
     display: flex;
     gap: 15px;
     text-decoration: none;
+
+    h6 {
+      align-self: flex-end;
+    }
   }
 
   .user-avatar-img {
@@ -115,6 +131,18 @@ const Styles = styled.div`
     color: white;
     background-color: #8C72BB;
     border: 2px solid #8C72BB;
+  }
+
+  .form-delete {
+    color: black;
+    background-color: lavender;
+    border: 2px solid white;
+  }
+
+  .form-delete:hover {
+    color: white;
+    background-color: #ED5E53;
+    border: 2px solid #ED5E53;
   }
 `
 

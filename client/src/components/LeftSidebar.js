@@ -19,7 +19,7 @@ export const LeftSidebar = () => {
   return (
     <Styles>
       <Container fluid className='wrapper'>
-        <h2>I'm a group</h2>
+        <h2>I'm a user group</h2>
       </Container>
     </Styles>
   )

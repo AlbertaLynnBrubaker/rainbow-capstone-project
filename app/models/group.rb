@@ -15,4 +15,12 @@ class Group < ApplicationRecord
   def blurb
     "#{self.description[0..59]}..."
   end
+
+  def current_user_in_group?(current_user)
+    if self.users.find_by(id: current_user.id)
+      true
+    else
+      false
+    end
+  end
 end
