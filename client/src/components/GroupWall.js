@@ -1,9 +1,11 @@
-import { useContext, useState } from "react"
+import { useContext, useState, useEffect } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
 import { useParams } from "react-router-dom"
 import { v4 as uuid } from "uuid"
 import { PageContext, UserContext } from "../tools/hooks"
 import { PostCard } from "./PostCard"
+import { LeftSidebar } from "./LeftSidebar"
+import { UserGroupsContext } from "../tools/hooks"
 
 import Styles from '../styles/HomeWall.style'
 
@@ -17,6 +19,7 @@ import Button from 'react-bootstrap/Button'
 export const GroupWall = () => {
   const { user } = useContext(UserContext)
   const { page, setPage } = useContext(PageContext)
+  const { userGroups, setUserGroups } = useContext(UserGroupsContext)
   const [ errors, setErrors ] = useState([])
   const [ group, setGroup ] = useState([])
   const [ isUserGroup, setIsUserGroup ] = useState(false)
@@ -27,17 +30,35 @@ export const GroupWall = () => {
 
   const params = useParams()
 
+  useEffect(() => {
+    fetch('/user_groups')
+      .then(r => {
+        if(r.ok){
+          r.json().then(data => {
+            setUserGroups(data)
+          })
+        } else {
+          r.json().then(data => setErrors(data.errors))
+        }
+      })
+  }, [])
+
   if(page === 0){
     fetch(`/groups/${params.title}?page=0`)
       .then(r => {
         if(r.ok) {
           r.json().then(data => {
+            console.log(data)
+            if(data.user){
+              console.log(data.user.is_in_group, data.user.membership_id)
+              setIsUserGroup(data.user.is_in_group)  
+              setMembershipId(data.user.membership_id) 
+            }   
             setGroup(data.group)
             setPosts(data.posts)
             setPostLength(data.length)
             setPage(1)
-            setIsUserGroup(data.user.is_in_group)  
-            setMembershipId(data.user.membership_id)       
+            
           })
         }
       })
@@ -106,9 +127,9 @@ export const GroupWall = () => {
       .then(r => {
         if(r.ok){
           r.json().then(data => {
-            console.log(data)
             setIsUserGroup(data.user.is_in_group)
             setMembershipId(data.user.membership_id)
+            setUserGroups(groups => [...groups, data.group])
           })
         } else {
           r.json().then(data => setErrors(data.errors))
@@ -123,6 +144,7 @@ export const GroupWall = () => {
       .then(() => {
         setIsUserGroup(false)
         setMembershipId(0)
+        setUserGroups(groups => groups.filter(grp => grp.id !== group.id))
       })
   }
 
@@ -140,13 +162,17 @@ export const GroupWall = () => {
       })
   }
 
-  
-
   return(
     <Styles>
       <Container className="content-container" fluid="sm">
         <Row >
-          <Col ></Col>
+          {userGroups && userGroups.length > 0 ? 
+            <Col className="d-none d-lg-flex">
+              <LeftSidebar />
+            </Col> 
+          :
+            <Col></Col>
+          }
           <Col lg={8} id="scrollable-div" >
             <Card className="form-card">
               <div className="user-banner">                        
@@ -160,7 +186,8 @@ export const GroupWall = () => {
               {isUserGroup ? 
                 <Button type="submit" className="form-delete" onClick={handleLeaveGroup}>Leave this group</Button>
               :
-                <Button type="submit" className="form-submit" onClick={handleJoinGroup}>Join this group</Button>}
+                <Button type="submit" className="form-submit" onClick={handleJoinGroup}>Join this group</Button>                
+              }
             </Card>
             { isUserGroup ?
             <Card className="form-card"> 

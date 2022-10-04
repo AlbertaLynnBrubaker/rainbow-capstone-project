@@ -3,7 +3,6 @@ import styled from "styled-components";
 const Styles = styled.div`
   padding-top: 50px;
   
-
   #scrollable-div {
     height: calc(100vh - 50px);
     width: 1fr;

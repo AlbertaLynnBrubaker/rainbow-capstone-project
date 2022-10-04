@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route,} from 'react-router-dom'
-import { AuthRoute, PageProvider, UserContext, UserProvider } from './tools/hooks';
+import { AuthRoute, PageProvider, UserGroupsProvider, UserProvider } from './tools/hooks';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
@@ -21,13 +21,12 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import GlobalStyle from './GlobalStyles.style';
 import { Background } from './styles/Background.style';
-import { useContext } from 'react';
 
 
 function App() {
-  // const { user, setUser } = useContext(UserContext)
   const [ backgroundUrl, setBackgroundUrl ] = useState('')
   const [ logoUrl, setLogoUrl ] = useState('')
+  const [ errors, setErrors ] = useState([])
 
   useEffect(() => {
     fetch('/background')
@@ -42,23 +41,25 @@ function App() {
     <>
     <GlobalStyle />
     <UserProvider >
-      <PageProvider>        
-        <Background url={backgroundUrl}>      
-          <Navigation logoUrl={logoUrl} />
-          <Routes>
-            <Route index element= {<AuthRoute><Home /></AuthRoute>} />
-            <Route path="/:username/profile" element= {<AuthRoute ><UserProfile /></AuthRoute>}/>
-            <Route path="/:username/password" element= {<AuthRoute><UserReset /></AuthRoute>}/>
-            <Route path="/:username/delete" element= {<AuthRoute><UserDelete /></AuthRoute>}/>
-            <Route path="/:username" element= {<AuthRoute ><UserWall /></AuthRoute>}/>
-            <Route path="/groups/:title" element= {<AuthRoute ><GroupWall /></AuthRoute>}/>
-            <Route path="/groups" element= {<AuthRoute ><GroupList /></AuthRoute>}/>
-            <Route path="*" element= {<NotFound />}/>  
-            <Route path="/login" element= {<Login />}/>
-            <Route path="/signup" element= {<Signup />}/>
-          </Routes>
-        </Background>        
-      </PageProvider>
+      <UserGroupsProvider>
+        <PageProvider>        
+          <Background url={backgroundUrl}>      
+            <Navigation logoUrl={logoUrl} />
+            <Routes>
+              <Route index element= {<AuthRoute><Home /></AuthRoute>} />
+              <Route path="/:username/profile" element= {<AuthRoute ><UserProfile /></AuthRoute>}/>
+              <Route path="/:username/password" element= {<AuthRoute><UserReset /></AuthRoute>}/>
+              <Route path="/:username/delete" element= {<AuthRoute><UserDelete /></AuthRoute>}/>
+              <Route path="/:username" element= {<AuthRoute ><UserWall /></AuthRoute>}/>
+              <Route path="/groups/:title" element= {<AuthRoute ><GroupWall /></AuthRoute>}/>
+              <Route path="/groups" element= {<AuthRoute ><GroupList /></AuthRoute>}/>
+              <Route path="*" element= {<NotFound />}/>  
+              <Route path="/login" element= {<Login />}/>
+              <Route path="/signup" element= {<Signup />}/>
+            </Routes>
+          </Background>        
+        </PageProvider>
+      </UserGroupsProvider>
     </UserProvider>
     </>
   );

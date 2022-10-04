@@ -29,6 +29,18 @@ export const UserProvider = ({children}) => {
   )
 }
 
+export const UserGroupsContext = React.createContext()
+
+export const UserGroupsProvider = ({children}) => {
+  const [userGroups, setUserGroups] = useState([])
+  
+  return (
+    <UserGroupsContext.Provider value= {{userGroups, setUserGroups}}>
+      {children}
+    </UserGroupsContext.Provider>
+  )
+}
+
 export const PageContext = React.createContext()
 
 export const PageProvider = ({children}) => {

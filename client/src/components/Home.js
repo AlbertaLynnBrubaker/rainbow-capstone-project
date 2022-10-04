@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
 import { v4 as uuid } from 'uuid'
 
-import { PageContext, UserContext } from "../tools/hooks"
+import { PageContext, UserContext, UserGroupsContext } from "../tools/hooks"
 import { PostCard } from "./PostCard"
 import Styles from '../styles/HomeWall.style'
 
@@ -17,16 +17,26 @@ import { LeftSidebar } from "./LeftSidebar"
 
 export const Home = () => {
   const { user } = useContext(UserContext)
+  const { userGroups, setUserGroups } = useContext(UserGroupsContext)
   const { page, setPage } = useContext(PageContext)
   const [ errors, setErrors ] = useState([])
   const [ posts, setPosts ] = useState([])
-  const [ userGroups, setUserGroups ] = useState([1])
+  
   const [ postLength, setPostLength ] = useState(10)
   const [ hasMore, setHasMore ] = useState(true)
-  
-  // useEffect(() => {
-  //   fetch('/groups')
-  // }, [])
+
+  useEffect(() => {
+    fetch('/user_groups')
+      .then(r => {
+        if(r.ok){
+          r.json().then(data => {
+            setUserGroups(data)
+          })
+        } else {
+          r.json().then(data => setErrors(data.errors))
+        }
+      })
+  }, [])
 
   if(page === 0){    
     fetch(`/posts?page=0`)
@@ -40,6 +50,7 @@ export const Home = () => {
         }
       })    
   }
+  
 
   const fetchMore = () => {
     if (posts.length >= postLength) {
@@ -103,13 +114,13 @@ export const Home = () => {
       })
   }
 
-  console.log(posts)
+  console.log(userGroups)
 
   return(   
     <Styles>
       <Container className="content-container" fluid="sm">
         <Row >
-          {userGroups.length > 0 ? 
+          {userGroups && userGroups.length > 0 ? 
             <Col className="d-none d-lg-flex">
               <LeftSidebar />
             </Col> 

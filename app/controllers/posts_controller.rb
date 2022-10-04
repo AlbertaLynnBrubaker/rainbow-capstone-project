@@ -10,14 +10,12 @@ class PostsController < ApplicationController
 
   def wall
     user = User.find_by(username: params[:username])
-    # byebug
     posts = user.posts.order(created_at: :desc).offset(Integer(params[:page]) * 10).limit(10)
     length = user.posts.length
     render json: post_map_data(posts, length, user), status: :ok
   end
 
-  def create  
-    byebug
+  def create
     post = Post.create!(post_params)    
     render json: PostSerializer.new(post).serializable_hash[:data][:attributes], status: :created
   end
