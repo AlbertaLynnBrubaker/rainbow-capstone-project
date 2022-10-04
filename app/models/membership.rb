@@ -7,8 +7,9 @@ class Membership < ApplicationRecord
   validate :one_member_per
 
   def one_member_per
-    members = Group.find_by(id: self.group_id).memberships
-    self.errors.add("A User can only be a member of a Group once") if members.find_by(user_id: self.user_id)
+    members = Group.find_by(id: self[:group_id]).memberships
+    self.errors.add("A User can only be a member of a Group once") if members.find_by(user_id: self[:user_id])
   end
 
 end
+

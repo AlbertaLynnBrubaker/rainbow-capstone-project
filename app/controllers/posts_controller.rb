@@ -17,6 +17,7 @@ class PostsController < ApplicationController
   end
 
   def create  
+    byebug
     post = Post.create!(post_params)    
     render json: PostSerializer.new(post).serializable_hash[:data][:attributes], status: :created
   end

@@ -11,12 +11,19 @@ class GroupsController < ApplicationController
     group_data = Group.find_by(title: params[:title])
     group = GroupSerializer.new(group_data).serializable_hash[:data][:attributes]
     user_data = group_data.current_user_in_group?(current_user)
+    if(user_data)
+      membership_data = group_data.memberships.find_by(user_id: current_user.id)
+    end
     posts_data = group_data.posts.order(created_at: :desc).offset(Integer(params[:page]) * 10).limit(10)
     length = group_data.posts.length
     posts = posts_data.map { |post|
       PostSerializer.new(post).serializable_hash[:data][:attributes]
     }
-    data = {posts: posts, group: group, length: length, is_in_group: user_data}
+    if(user_data)
+      data = {posts: posts, group: group, length: length, user: {is_in_group: user_data}, membership_id: membership_data.id}
+    else
+      data = {posts: posts, group: group, length: length, user: {is_in_group: user_data} }
+    end
     render json: data, status: :ok
   end
 

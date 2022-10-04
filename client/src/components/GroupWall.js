@@ -1,6 +1,6 @@
-import { useContext, useState, useEffect } from "react"
+import { useContext, useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
-import { useParams, Link } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { v4 as uuid } from "uuid"
 import { PageContext, UserContext } from "../tools/hooks"
 import { PostCard } from "./PostCard"
@@ -20,6 +20,7 @@ export const GroupWall = () => {
   const [ errors, setErrors ] = useState([])
   const [ group, setGroup ] = useState([])
   const [ isUserGroup, setIsUserGroup ] = useState(false)
+  const [ membershipId, setMembershipId ] = useState(0)
   const [ posts, setPosts ] = useState([])
   const [ postLength, setPostLength ] = useState(10)
   const [ hasMore, setHasMore ] = useState(true)  
@@ -35,7 +36,8 @@ export const GroupWall = () => {
             setPosts(data.posts)
             setPostLength(data.length)
             setPage(1)
-            setIsUserGroup(data.is_in_group)         
+            setIsUserGroup(data.user.is_in_group)  
+            setMembershipId(data.user.membership_id)       
           })
         }
       })
@@ -90,6 +92,40 @@ export const GroupWall = () => {
     })
   }
 
+  const handleJoinGroup = () => {
+    const data = new FormData()
+    
+    data.append('membership[group_id]', group.id)
+    data.append('membership[user_id]', user.id)
+  
+    console.log(data)
+    fetch(`/memberships`, {
+      method: 'POST',
+      body: data
+    })
+      .then(r => {
+        if(r.ok){
+          r.json().then(data => {
+            console.log(data)
+            setIsUserGroup(data.user.is_in_group)
+            setMembershipId(data.user.membership_id)
+          })
+        } else {
+          r.json().then(data => setErrors(data.errors))
+        }
+      })
+  }
+
+  const handleLeaveGroup = () => {
+    fetch(`/memberships/${membershipId}`, {
+      method: 'DELETE'
+    })
+      .then(() => {
+        setIsUserGroup(false)
+        setMembershipId(0)
+      })
+  }
+
   const handleDeletePost = (post_id) => {
     fetch(`/posts/${post_id}`, {
       method: 'DELETE'
@@ -122,9 +158,9 @@ export const GroupWall = () => {
                 <p className="">{group.description}</p>
               </Container>
               {isUserGroup ? 
-                <Button type="submit" className="form-delete">Leave this group</Button>
+                <Button type="submit" className="form-delete" onClick={handleLeaveGroup}>Leave this group</Button>
               :
-              <Button type="submit" className="form-submit">Join this group</Button>}
+                <Button type="submit" className="form-submit" onClick={handleJoinGroup}>Join this group</Button>}
             </Card>
             { isUserGroup ?
             <Card className="form-card"> 
