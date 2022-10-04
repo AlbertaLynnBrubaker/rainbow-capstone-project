@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_21_191858) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_29_174107) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -48,11 +48,33 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_21_191858) do
     t.index ["post_id"], name: "index_comments_on_post_id"
   end
 
+  create_table "groups", force: :cascade do |t|
+    t.string "title"
+    t.string "founder"
+    t.text "description"
+    t.boolean "is_private", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "memberships", force: :cascade do |t|
+    t.integer "group_id", null: false
+    t.integer "user_id", null: false
+    t.boolean "is_admin", default: false
+    t.boolean "is_moderator", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_memberships_on_group_id"
+    t.index ["user_id"], name: "index_memberships_on_user_id"
+  end
+
   create_table "posts", force: :cascade do |t|
     t.text "content"
+    t.integer "group_id"
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_posts_on_group_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -72,5 +94,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_21_191858) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "posts"
+  add_foreign_key "memberships", "groups"
+  add_foreign_key "memberships", "users"
+  add_foreign_key "posts", "groups"
   add_foreign_key "posts", "users"
 end

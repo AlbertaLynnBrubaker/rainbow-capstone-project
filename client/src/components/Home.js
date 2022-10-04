@@ -1,8 +1,8 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
 import { v4 as uuid } from 'uuid'
 
-import { PageContext, UserContext } from "../tools/hooks"
+import { PageContext, UserContext, UserGroupsContext } from "../tools/hooks"
 import { PostCard } from "./PostCard"
 import Styles from '../styles/HomeWall.style'
 
@@ -12,16 +12,31 @@ import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import { LeftSidebar } from "./LeftSidebar"
 
 
 export const Home = () => {
   const { user } = useContext(UserContext)
+  const { userGroups, setUserGroups } = useContext(UserGroupsContext)
   const { page, setPage } = useContext(PageContext)
   const [ errors, setErrors ] = useState([])
   const [ posts, setPosts ] = useState([])
+  
   const [ postLength, setPostLength ] = useState(10)
   const [ hasMore, setHasMore ] = useState(true)
-  
+
+  useEffect(() => {
+    fetch('/user_groups')
+      .then(r => {
+        if(r.ok){
+          r.json().then(data => {
+            setUserGroups(data)
+          })
+        } else {
+          r.json().then(data => setErrors(data.errors))
+        }
+      })
+  }, [])
 
   if(page === 0){    
     fetch(`/posts?page=0`)
@@ -35,6 +50,7 @@ export const Home = () => {
         }
       })    
   }
+  
 
   const fetchMore = () => {
     if (posts.length >= postLength) {
@@ -64,6 +80,7 @@ export const Home = () => {
       data.append('post[image]', e.target.image.files[0])
     }
     submitToAPI(data)
+    e.target.reset()
   }
 
   const submitToAPI = (data) => {    
@@ -97,11 +114,19 @@ export const Home = () => {
       })
   }
 
+  console.log(userGroups)
+
   return(   
     <Styles>
       <Container className="content-container" fluid="sm">
         <Row >
-          <Col ></Col>
+          {userGroups && userGroups.length > 0 ? 
+            <Col className="d-none d-lg-flex">
+              <LeftSidebar />
+            </Col> 
+          :
+            <Col></Col>
+          }
           <Col lg={8} id="scrollable-div" >
             {user ? 
             <Card className="form-card">
@@ -127,7 +152,7 @@ export const Home = () => {
               }
             )}</InfiniteScroll>
         </Col>
-        <Col ></Col>
+        <Col className="d-none d-lg-flex"></Col>
         </Row>        
       </Container>
     </Styles>    

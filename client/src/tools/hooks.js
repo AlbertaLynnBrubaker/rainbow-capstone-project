@@ -29,6 +29,18 @@ export const UserProvider = ({children}) => {
   )
 }
 
+export const UserGroupsContext = React.createContext()
+
+export const UserGroupsProvider = ({children}) => {
+  const [userGroups, setUserGroups] = useState([])
+  
+  return (
+    <UserGroupsContext.Provider value= {{userGroups, setUserGroups}}>
+      {children}
+    </UserGroupsContext.Provider>
+  )
+}
+
 export const PageContext = React.createContext()
 
 export const PageProvider = ({children}) => {
@@ -42,15 +54,15 @@ export const PageProvider = ({children}) => {
 
 export const Logout = () => {
   const { user, setUser } = useContext(UserContext)
-  const nav = useNavigate()
+  const nav = useNavigate()  
   
-  const handleLogout = () => {
+  const handleLogout = () => {    
     fetch('/logout', {
       method: "DELETE"
     })
       .then(() => {
         setUser("")
-        nav('/login')
+        nav('/login')        
       })
   }
 
@@ -61,7 +73,6 @@ export const Logout = () => {
 
 export const AuthRoute = ({children}) => {
   const {user, setUser} = useContext(UserContext)
-
 
   useEffect(() => {
     fetch('/me')

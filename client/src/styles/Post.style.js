@@ -39,6 +39,17 @@ const Styles = styled.div`
   .user-avatar-text {
     color: black;
   }
+  .group-avatar-img {
+    height: 35px;
+    width: 35px;
+    border: 1px solid #8C72BB;
+    border-radius: 35px;
+    margin-left: 3px;
+  }
+
+  .group-avatar-text {
+    color: black;
+  }
 
   .post-container {
     display: flex;

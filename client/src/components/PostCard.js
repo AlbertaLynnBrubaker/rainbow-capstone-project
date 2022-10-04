@@ -52,6 +52,7 @@ export const PostCard = ({post, setPosts, handleDeletePost}) => {
       data.append('comment[comment_image]', e.target.comment_image.files[0])
     }
     submitToAPI(data)
+    e.target.reset()
   }
 
   const submitToAPI = (data) => {    
