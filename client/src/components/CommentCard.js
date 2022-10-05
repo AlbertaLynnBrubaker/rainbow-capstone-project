@@ -37,7 +37,7 @@ export const CommentCard = ({comment, setComments, onDeleteComment}) => {
           <Link to={`/${comment.user.username}`} onClick={() => setPage(0)} className="user-banner">
             <img src={comment.user_avatar}  alt="user avatar" className='user-avatar-img'/>
             <h5 className='user-avatar-text'>{comment.user.full_name}</h5>
-            <h6 className='user-avatar-text'>{comment.user.pronouns}</h6>      
+            {comment.user.pronouns ? <h6 className='user-avatar-text'>{comment.user.pronouns}</h6> : null}      
           </Link>
           <p>{comment.comment.content}</p>
           <Container className='comment-img-container'>{comment.comment_image_url ? <img src={comment.comment_image_url} alt="comment" className='comment-img' /> : null}</Container>

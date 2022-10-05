@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_29_174107) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_04_204150) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -78,14 +78,21 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_29_174107) do
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
+  create_table "user_friends", force: :cascade do |t|
+    t.integer "logged_user_id"
+    t.integer "friend_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "password_digest"
     t.string "email"
     t.string "full_name"
-    t.integer "age"
+    t.integer "age", default: 0
     t.text "bio"
-    t.string "pronouns"
+    t.string "pronouns", default: ""
     t.boolean "admin", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

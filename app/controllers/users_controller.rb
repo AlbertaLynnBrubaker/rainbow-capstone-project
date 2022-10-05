@@ -5,6 +5,26 @@ class UsersController < ApplicationController
     render json: UserSerializer.new(current_user).serializable_hash[:data][:attributes], status: :ok
   end
 
+  def user_friends
+    friends_data = current_user.friends
+    friends = friends_data.map { |friend|
+      UserSerializer.new(friend).serializable_hash[:data][:attributes]
+    }
+    render json: friends, status: :ok
+  end
+
+  def friends_list    
+    if(current_user.friends) 
+      friends_data = current_user.friends.order(:full_name).offset(Integer(params[:page]) * 10).limit(10)
+      friends = friends_data.map { |friend|
+        UserSerializer.new(friend).serializable_hash[:data][:attributes]
+      }    
+      length = friends_data.length
+      data = {friends: friends, length: length}  
+      render json: data, status: :ok
+    end    
+  end
+
   def background
     bg = User.find_by(username: 'background')
     logo = User.find_by(username: 'logo')
@@ -13,7 +33,13 @@ class UsersController < ApplicationController
   end
 
   def create
+    byebug
     user = User.create!(user_params)
+    if params[:avatar]
+      user
+    else
+      user.avatar.attach(io: File.open(Rails.root.join('avatar_blank.png')), filename: 'avatar_blank.png', content_type: 'image/png')
+    end
     if user.valid?
       session[:user_id] = user.id
       render json: UserSerializer.new(user).serializable_hash[:data][:attributes], status: :created
@@ -36,6 +62,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:username, :email, :avatar, :password, :password_confirmation, :pronouns, :bio, :age, :full_name)
+    params.require(:user).permit(:username, :email, :avatar, :password, :password_confirmation, :pronouns, :bio, :age, :full_name, :logged_user_id, :page)
   end
 end

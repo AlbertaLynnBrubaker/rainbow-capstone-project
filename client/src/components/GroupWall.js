@@ -5,7 +5,8 @@ import { v4 as uuid } from "uuid"
 import { PageContext, UserContext } from "../tools/hooks"
 import { PostCard } from "./PostCard"
 import { LeftSidebar } from "./LeftSidebar"
-import { UserGroupsContext } from "../tools/hooks"
+import { RightSidebar } from "./RightSidebar"
+import { UserGroupsContext, UserFriendsContext } from "../tools/hooks"
 
 import Styles from '../styles/HomeWall.style'
 
@@ -20,6 +21,7 @@ export const GroupWall = () => {
   const { user } = useContext(UserContext)
   const { page, setPage } = useContext(PageContext)
   const { userGroups, setUserGroups } = useContext(UserGroupsContext)
+  const { userFriends, setUserFriends } = useContext(UserFriendsContext)
   const [ errors, setErrors ] = useState([])
   const [ group, setGroup ] = useState([])
   const [ isUserGroup, setIsUserGroup ] = useState(false)
@@ -41,6 +43,17 @@ export const GroupWall = () => {
           r.json().then(data => setErrors(data.errors))
         }
       })
+
+    fetch('/user_friends')
+      .then(r => {
+        if(r.ok) {
+          r.json().then(data => {
+            setUserFriends(data)
+          })
+        } else {
+          r.json().then(data => setErrors(data.errors))
+        }
+      })
   }, [])
 
   if(page === 0){
@@ -48,9 +61,7 @@ export const GroupWall = () => {
       .then(r => {
         if(r.ok) {
           r.json().then(data => {
-            console.log(data)
             if(data.user){
-              console.log(data.user.is_in_group, data.user.membership_id)
               setIsUserGroup(data.user.is_in_group)  
               setMembershipId(data.user.membership_id) 
             }   
@@ -119,7 +130,6 @@ export const GroupWall = () => {
     data.append('membership[group_id]', group.id)
     data.append('membership[user_id]', user.id)
   
-    console.log(data)
     fetch(`/memberships`, {
       method: 'POST',
       body: data
@@ -166,7 +176,7 @@ export const GroupWall = () => {
     <Styles>
       <Container className="content-container" fluid="sm">
         <Row >
-          {userGroups && userGroups.length > 0 ? 
+          { userGroups && userGroups.length > 0 ? 
             <Col className="d-none d-lg-flex">
               <LeftSidebar />
             </Col> 
@@ -183,13 +193,15 @@ export const GroupWall = () => {
               <Container>
                 <p className="">{group.description}</p>
               </Container>
-              {isUserGroup ? 
-                <Button type="submit" className="form-delete" onClick={handleLeaveGroup}>Leave this group</Button>
-              :
-                <Button type="submit" className="form-submit" onClick={handleJoinGroup}>Join this group</Button>                
-              }
+              {user ?<Container>
+                {isUserGroup ? 
+                  <Button type="submit" className="form-delete" onClick={handleLeaveGroup}>Leave this group</Button>
+                :
+                  <Button type="submit" className="form-submit" onClick={handleJoinGroup}>Join this group</Button>                
+                }
+              </Container> : null}
             </Card>
-            { isUserGroup ?
+            {isUserGroup ?
             <Card className="form-card"> 
               <Form onSubmit={handlePostSubmit}>
               {errors ? errors.map(e => <section key={uuid()}>{e}</section>) : null}        
@@ -220,7 +232,13 @@ export const GroupWall = () => {
               )}
             )}</InfiniteScroll>        
           </Col>
-          <Col ></Col>
+          {userFriends && userFriends.length > 0 ? 
+          <Col className="d-none d-lg-flex">
+            <RightSidebar />
+          </Col> 
+        :
+          <Col></Col>
+        }
         </Row>        
       </Container>
     </Styles>

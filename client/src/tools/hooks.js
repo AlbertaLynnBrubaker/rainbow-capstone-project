@@ -41,6 +41,18 @@ export const UserGroupsProvider = ({children}) => {
   )
 }
 
+export const UserFriendsContext = React.createContext()
+
+export const UserFriendsProvider = ({children}) => {
+  const [userFriends, setUserFriends] = useState([])
+  
+  return (
+    <UserFriendsContext.Provider value= {{userFriends, setUserFriends}}>
+      {children}
+    </UserFriendsContext.Provider>
+  )
+}
+
 export const PageContext = React.createContext()
 
 export const PageProvider = ({children}) => {
@@ -54,6 +66,8 @@ export const PageProvider = ({children}) => {
 
 export const Logout = () => {
   const { user, setUser } = useContext(UserContext)
+  const { setUserGroups } = useContext(UserGroupsContext)
+  const { setUserFriends } = useContext(UserFriendsContext)
   const nav = useNavigate()  
   
   const handleLogout = () => {    
@@ -62,6 +76,8 @@ export const Logout = () => {
     })
       .then(() => {
         setUser("")
+        setUserGroups([])
+        setUserFriends([])
         nav('/login')        
       })
   }

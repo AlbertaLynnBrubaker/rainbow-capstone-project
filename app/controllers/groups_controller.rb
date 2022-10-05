@@ -35,6 +35,8 @@ class GroupsController < ApplicationController
     render json: data, status: :ok
   end
 
+  
+
   private
 
   def group_map_data(groups, length)

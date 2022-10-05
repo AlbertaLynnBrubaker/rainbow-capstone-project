@@ -5,16 +5,14 @@ const Styles = styled.div`
   margin: 0;
   left: 0;
   padding-top: 15px;
-  width: 30%;
+  width: 20%;
   max-width: 380px;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
-  
-  z-index:800;
-  
+  align-items: center;  
+  z-index:800;  
 
   .center-flex {
     display: flex;    
@@ -37,23 +35,25 @@ const Styles = styled.div`
 
   .user-banner {
     display: flex;    
-    text-decoration: none;
+    text-decoration: none; 
+    overflow: hidden;
+    white-space: nowrap;   
   }
 
   .user-avatar-img {
-    height: 45px;
-    width: 45px;
+    height: 35px;
+    width: 35px;
     border: 1px solid #8C72BB;
-    border-radius: 40px;
+    border-radius: 35px;
     margin-left: 3px;
   }
 
   .user-avatar-text {
-    color: black;
+    color: black;  
   }
 
   .group-card {   
-    width: 80%;
+    /* width: 80%; */
     margin: 5px; 
     padding: 1.1rem;
     border-radius: 15px;

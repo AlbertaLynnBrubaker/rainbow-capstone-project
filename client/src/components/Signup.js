@@ -26,7 +26,6 @@ export const Signup = () => {
     data.append('user[password_confirmation]', e.target.password_confirmation.value)
     data.append('user[full_name]', e.target.full_name.value)
     if(e.target.avatar.files[0]){data.append('user[avatar]', e.target.avatar.files[0])}
-    console.log(data)
     submitToAPI(data)
   }
 

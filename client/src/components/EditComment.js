@@ -62,7 +62,7 @@ export const EditComment = ({comment, setComments, isEditComment, setIsEditComme
           <Link to={`/${comment.user.username}`} onClick={() => setPage(0)} className="user-banner">
             <img src={comment.user_avatar}  alt="user avatar" className='user-avatar-img'/>
             <h5 className='user-avatar-text'>{comment.user.full_name}</h5>
-            <h6 className='user-avatar-text'>{comment.user.pronouns}</h6>
+            {comment.user.pronouns ? <h6 className='user-avatar-text'>{comment.user.pronouns}</h6> : null}
           </Link>
       <Form onSubmit={handlePatchSubmit} className="edit-comment-form">
         {errors ? errors.map(e => <section key={uuid()}>{e}</section>) : null} 
