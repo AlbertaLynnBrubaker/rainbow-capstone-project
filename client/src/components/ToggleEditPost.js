@@ -61,7 +61,7 @@ export const ToggleEditPost = ({ post, setPosts, isEditPost, setIsEditPost }) =>
         <Link to={`/${post.user.username}`} onClick={() => setPage(0)} className="user-banner">
           <img src={post.user_avatar}  alt="user avatar" className='user-avatar-img'/>
           <h5 className='user-avatar-text'>{post.user.full_name}</h5>
-          <h6 className='user-avatar-text'>{post.user.pronouns}</h6>
+          {post.user.pronouns ? <h6 className='user-avatar-text'>{`(${post.user.pronouns})`}</h6> : null}
           {post.group_data ? <><img src={post.group_data.avatar}  alt="group avatar" className='group-avatar-img'/>
           <h6 className='group-avatar-text'>{post.group_data.title}</h6></> : null}      
         </Link>
@@ -83,7 +83,7 @@ export const ToggleEditPost = ({ post, setPosts, isEditPost, setIsEditPost }) =>
         <Link to={`/${post.user.username}` } onClick={() => setPage(0)} className="user-banner">
           <img src={post.user_avatar}  alt="user avatar" className='user-avatar-img'/>
           <h5 className='user-avatar-text'>{post.user.full_name}</h5>
-          <h6 className='user-avatar-text'>{`(${post.user.pronouns})`}</h6>
+          {post.user.pronouns ? <h6 className='user-avatar-text'>{`(${post.user.pronouns})`}</h6> : null}
         </Link>
         {post.group_data ? 
           <Link to={`/groups/${post.group_data.title}`} onClick={() => setPage(0)} className="user-banner">

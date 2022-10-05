@@ -140,7 +140,6 @@ export const UserWall = () => {
       .then(r => {
         if(r.ok){
           r.json().then(data => {
-            console.log(data)
             setUserFriends(friends => [...friends, data.friend])
           })
         } else {
@@ -181,8 +180,8 @@ export const UserWall = () => {
                 { posts[0].user.pronouns ? <h6 className='user-avatar-text'>{`(${posts[0].user.pronouns})`}</h6> : null }
               </Container>
               <Container>
-                { posts[0].user.bio ? <p className='user-avatar-text'>Bio: {posts[0].user.bio}</p> : null }
-                { posts[0].user.bio ? <p className='user-avatar-text'>Age: {posts[0].user.age}</p> : null } 
+                { !!posts[0].user.bio ? <p className='user-avatar-text'>Bio: {posts[0].user.bio}</p> : null }
+                { posts[0].user.age ? <p className='user-avatar-text'>Age: {posts[0].user.age}</p> : null } 
                 {user.username === params.username ? null:  <Container>{ friendsFilter ? 
                   <Button type="submit" className="form-delete" onClick={handleUnfriend}>Unfriend</Button>
                 :

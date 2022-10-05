@@ -29,7 +29,6 @@ export const UserFriends = () => {
       .then(r => {
         if(r.ok) {
           r.json().then(data => {
-            console.log(data)
             setUserFriends(data.friends)
             setFriendsLength(data.length)
             setPage(1)     

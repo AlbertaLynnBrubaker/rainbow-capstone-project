@@ -5,9 +5,9 @@ class CreateUsers < ActiveRecord::Migration[7.0]
       t.string :password_digest
       t.string :email
       t.string :full_name
-      t.integer :age
-      t.text :bio
-      t.string :pronouns
+      t.integer :age, default: 0
+      t.text :bio, default: nil
+      t.string :pronouns, default: ""
       t.boolean :admin, default: false
 
       t.timestamps

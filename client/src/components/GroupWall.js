@@ -61,7 +61,6 @@ export const GroupWall = () => {
       .then(r => {
         if(r.ok) {
           r.json().then(data => {
-            console.log(data)
             if(data.user){
               setIsUserGroup(data.user.is_in_group)  
               setMembershipId(data.user.membership_id) 
@@ -131,7 +130,6 @@ export const GroupWall = () => {
     data.append('membership[group_id]', group.id)
     data.append('membership[user_id]', user.id)
   
-    console.log(data)
     fetch(`/memberships`, {
       method: 'POST',
       body: data
@@ -195,13 +193,15 @@ export const GroupWall = () => {
               <Container>
                 <p className="">{group.description}</p>
               </Container>
-              {isUserGroup ? 
-                <Button type="submit" className="form-delete" onClick={handleLeaveGroup}>Leave this group</Button>
-              :
-                <Button type="submit" className="form-submit" onClick={handleJoinGroup}>Join this group</Button>                
-              }
+              {user ?<Container>
+                {isUserGroup ? 
+                  <Button type="submit" className="form-delete" onClick={handleLeaveGroup}>Leave this group</Button>
+                :
+                  <Button type="submit" className="form-submit" onClick={handleJoinGroup}>Join this group</Button>                
+                }
+              </Container> : null}
             </Card>
-            { isUserGroup ?
+            {isUserGroup ?
             <Card className="form-card"> 
               <Form onSubmit={handlePostSubmit}>
               {errors ? errors.map(e => <section key={uuid()}>{e}</section>) : null}        

@@ -33,7 +33,6 @@ export const GroupList = () => {
       .then(r => {
         if(r.ok) {
           r.json().then(data => {
-            console.log(data)
             setGroups(data.groups)
             setGroupsLength(data.length)
             setPage(1)     

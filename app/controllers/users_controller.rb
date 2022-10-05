@@ -33,7 +33,13 @@ class UsersController < ApplicationController
   end
 
   def create
+    byebug
     user = User.create!(user_params)
+    if params[:avatar]
+      user
+    else
+      user.avatar.attach(io: File.open(Rails.root.join('avatar_blank.png')), filename: 'avatar_blank.png', content_type: 'image/png')
+    end
     if user.valid?
       session[:user_id] = user.id
       render json: UserSerializer.new(user).serializable_hash[:data][:attributes], status: :created

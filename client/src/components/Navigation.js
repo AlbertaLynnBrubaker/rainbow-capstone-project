@@ -28,7 +28,6 @@ export const Navigation = ({logoUrl}) => {
             <NavLink to={`/groups`} className='btn-nav' onClick={handleNavClick}><HiUserGroup className='btn-icon'/></NavLink>
             <NavLink to={`/${user.username}`} className='btn-nav' onClick={handleNavClick}><RiProfileFill className='btn-icon'/></NavLink>            
             <NavLink to={`/${user.username}/friends`} className='btn-nav' onClick={handleNavClick}><BsPeopleFill className='btn-icon'/></NavLink>
-            {/* <NavLink to={`/${user.username}/profile`} className='btn-nav' onClick={handleNavClick}><BsPersonCircle className='btn-icon'/></NavLink> */}
             <Logout />
           </Container>
         :

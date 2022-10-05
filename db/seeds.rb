@@ -36,6 +36,8 @@ while User.all.length <= 600 do
   u = User.create(username: Faker::Internet.unique.username, password: "123", password_confirmation: "123", email: Faker::Internet.unique.email, full_name: Faker::Name.unique.name, pronouns: pronouns.sample, age: Faker::Number.within(range: 13..45), bio: Faker::Hipster.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 2) )
   u.avatar.attach(
     io: File.open(Rails.root.join('avatar_blank.png')), filename: 'avatar_blank.png', content_type: 'image/png')
+  
+  Post.create(content: "Welcome to rainbow! Post your heart out!", user_id: u.id, group_id: nil)
 end
 
 puts "forming elite cadres of post apocalypse trans cat-girl hunting squads"
@@ -68,7 +70,7 @@ end
 
 puts "spreading the gay agenda..."
 
-2000.times do
+1400.times do
   Post.create(content: Faker::Hipster.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 6), user_id: User.where('id > 2').sample.id, group_id: nil)
 end
 

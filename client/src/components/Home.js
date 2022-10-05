@@ -127,8 +127,6 @@ export const Home = () => {
       })
   }
 
-  console.log(userFriends)
-
   return(   
     <Styles>
       <Container className="content-container" fluid="sm">
