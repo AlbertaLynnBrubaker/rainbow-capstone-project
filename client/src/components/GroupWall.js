@@ -63,7 +63,6 @@ export const GroupWall = () => {
           r.json().then(data => {
             console.log(data)
             if(data.user){
-              console.log(data.user.is_in_group, data.user.membership_id)
               setIsUserGroup(data.user.is_in_group)  
               setMembershipId(data.user.membership_id) 
             }   

@@ -140,9 +140,8 @@ export const UserWall = () => {
       .then(r => {
         if(r.ok){
           r.json().then(data => {
-            // setIsUserGroup(data.user.is_in_group)
-            // setMembershipId(data.user.membership_id)
-            // setUserGroups(groups => [...groups, data.group])
+            console.log(data)
+            setUserFriends(friends => [...friends, data.friend])
           })
         } else {
           r.json().then(data => setErrors(data.errors))
@@ -155,9 +154,7 @@ export const UserWall = () => {
       method: 'DELETE'
     })
       .then(() => {
-        // setIsUserGroup(false)
-        // setMembershipId(0)
-        // setUserGroups(groups => groups.filter(grp => grp.id !== group.id))
+        setUserFriends(friends => friends.filter(frd => frd.id !== posts[0].user.id))
       })
   }
 
