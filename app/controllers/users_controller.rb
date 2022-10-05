@@ -5,6 +5,16 @@ class UsersController < ApplicationController
     render json: UserSerializer.new(current_user).serializable_hash[:data][:attributes], status: :ok
   end
 
+  def user_friends
+    friends_data = current_user.friends.order(:full_name).offset(Integer(params[:page]) * 10).limit(10)
+    friends = friends_data.map { |friend|
+      UserSerializer.new(friend).serializable_hash[:data][:attributes]
+    }
+    length = friends_data.length
+    data = {friends: friends, length: length}
+    render json: data, status: :ok
+  end
+
   def background
     bg = User.find_by(username: 'background')
     logo = User.find_by(username: 'logo')
@@ -36,6 +46,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:username, :email, :avatar, :password, :password_confirmation, :pronouns, :bio, :age, :full_name)
+    params.require(:user).permit(:username, :email, :avatar, :password, :password_confirmation, :pronouns, :bio, :age, :full_name, :logged_user_id, :page)
   end
 end

@@ -5,7 +5,7 @@ const Styles = styled.div`
   margin: 0;
   left: 0;
   padding-top: 15px;
-  width: 30%;
+  width: 20%;
   max-width: 380px;
   height: 100%;
   display: flex;
@@ -37,7 +37,9 @@ const Styles = styled.div`
 
   .user-banner {
     display: flex;    
-    text-decoration: none;
+    text-decoration: none; 
+    overflow: hidden;
+    white-space: nowrap;   
   }
 
   .user-avatar-img {
@@ -49,7 +51,7 @@ const Styles = styled.div`
   }
 
   .user-avatar-text {
-    color: black;
+    color: black;  
   }
 
   .group-card {   

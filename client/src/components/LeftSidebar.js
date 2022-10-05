@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react'
+import { v4 as uuid } from 'uuid'
 import { PageContext, UserContext, UserGroupsContext } from '../tools/hooks'
 import { Logout } from '../tools/hooks'
 import { NavLink, Link } from 'react-router-dom'
@@ -14,13 +15,9 @@ export const LeftSidebar = () => {
   const { setPage } = useContext(PageContext)  
   const { userGroups, setUserGroups } = useContext(UserGroupsContext)
   
-  const handleNavClick = () => {
-    setPage(0)
-  }
-
   const groupMap = userGroups.map( group => {
     return(
-      <Link to={`/groups/${group.title}`} onClick={() => setPage(0)} >        
+      <Link key={uuid()} to={`/groups/${group.title}`} onClick={() => setPage(0)} >        
         <Container className="user-banner">
           <img src={group.avatar_url}  alt="group avatar" className='user-avatar-img'/>
           <h5 className='user-avatar-text'>{group.title}</h5>

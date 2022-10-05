@@ -2,9 +2,10 @@ import { useContext, useState, useEffect } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
 import { useParams } from "react-router-dom"
 import { v4 as uuid } from "uuid"
-import { PageContext, UserContext, UserGroupsContext } from "../tools/hooks"
+import { PageContext, UserContext, UserGroupsContext, UserFriendsContext } from "../tools/hooks"
 import { PostCard } from "./PostCard"
 import { LeftSidebar } from "./LeftSidebar"
+import { RightSidebar } from "./RightSidebar"
 
 import Styles from '../styles/HomeWall.style'
 
@@ -18,6 +19,7 @@ import Button from 'react-bootstrap/Button'
 export const UserWall = () => {
   const { user } = useContext(UserContext)
   const { userGroups, setUserGroups } = useContext(UserGroupsContext)
+  const { userFriends, setUserFriends } = useContext(UserFriendsContext)
   const { page, setPage } = useContext(PageContext)
   const [ errors, setErrors ] = useState([])
   const [ posts, setPosts ] = useState([])
@@ -156,7 +158,13 @@ export const UserWall = () => {
               )}
             )}</InfiniteScroll>        
           </Col>
-          <Col ></Col>
+          {userFriends && userFriends.length > 0 ? 
+          <Col className="d-none d-lg-flex">
+            <RightSidebar />
+          </Col> 
+        :
+          <Col></Col>
+        }
         </Row>        
       </Container>
     </Styles>

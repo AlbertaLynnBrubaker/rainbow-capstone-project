@@ -6,6 +6,12 @@ class User < ApplicationRecord
   has_many :memberships, dependent: :destroy
   has_many :groups, through: :memberships
 
+  has_many :friends, foreign_key: :friend_id, class_name: "UserFriend"
+  has_many :logged_users, through: :friends
+
+  has_many :logged_users, foreign_key: :logged_user_id, class_name: "UserFriend"
+  has_many :friends, through: :logged_users
+
   has_one_attached :avatar, dependent: :purge_later
 
   validates :username, :email, presence: true
