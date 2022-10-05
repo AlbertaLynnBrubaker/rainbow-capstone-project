@@ -43,7 +43,7 @@ export const Home = () => {
       .then(r => {
         if(r.ok) {
           r.json().then(data => {
-            setUserFriends(data.friends)
+            setUserFriends(data)
           })
         } else {
           r.json().then(data => setErrors(data.errors))

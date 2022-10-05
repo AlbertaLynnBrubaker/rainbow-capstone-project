@@ -6,13 +6,23 @@ class UsersController < ApplicationController
   end
 
   def user_friends
-    friends_data = current_user.friends.order(:full_name).offset(Integer(params[:page]) * 10).limit(10)
+    friends_data = current_user.friends
     friends = friends_data.map { |friend|
       UserSerializer.new(friend).serializable_hash[:data][:attributes]
     }
-    length = friends_data.length
-    data = {friends: friends, length: length}
-    render json: data, status: :ok
+    render json: friends, status: :ok
+  end
+
+  def friends_list    
+    if(current_user.friends) 
+      friends_data = current_user.friends.order(:full_name).offset(Integer(params[:page]) * 10).limit(10)
+      friends = friends_data.map { |friend|
+        UserSerializer.new(friend).serializable_hash[:data][:attributes]
+      }    
+      length = friends_data.length
+      data = {friends: friends, length: length}  
+      render json: data, status: :ok
+    end    
   end
 
   def background

@@ -63,7 +63,7 @@ export const GroupList = () => {
     <Styles>
       <Container className="content-container" fluid="sm">
         <Row >
-          {groups.length > 0 ? 
+        {userGroups && userGroups.length > 0 ? 
             <Col className="d-none d-lg-flex">
               <LeftSidebar />
             </Col> 
@@ -82,7 +82,7 @@ export const GroupList = () => {
             }
             >{groups.map(group => {          
                 return (                  
-                  <Link to={`/groups/${group.title}`} onClick={() => setPage(0)} >
+                  <Link key={uuid()} to={`/groups/${group.title}`} onClick={() => setPage(0)} >
                     <Card className="group-card">
                       <Container className="user-banner">
                         <img src={group.avatar_url}  alt="group avatar" className='user-avatar-img'/>

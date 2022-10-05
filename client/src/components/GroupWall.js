@@ -5,7 +5,8 @@ import { v4 as uuid } from "uuid"
 import { PageContext, UserContext } from "../tools/hooks"
 import { PostCard } from "./PostCard"
 import { LeftSidebar } from "./LeftSidebar"
-import { UserGroupsContext } from "../tools/hooks"
+import { RightSidebar } from "./RightSidebar"
+import { UserGroupsContext, UserFriendsContext } from "../tools/hooks"
 
 import Styles from '../styles/HomeWall.style'
 
@@ -20,6 +21,7 @@ export const GroupWall = () => {
   const { user } = useContext(UserContext)
   const { page, setPage } = useContext(PageContext)
   const { userGroups, setUserGroups } = useContext(UserGroupsContext)
+  const { userFriends, setUserFriends } = useContext(UserFriendsContext)
   const [ errors, setErrors ] = useState([])
   const [ group, setGroup ] = useState([])
   const [ isUserGroup, setIsUserGroup ] = useState(false)
@@ -36,6 +38,17 @@ export const GroupWall = () => {
         if(r.ok){
           r.json().then(data => {
             setUserGroups(data)
+          })
+        } else {
+          r.json().then(data => setErrors(data.errors))
+        }
+      })
+
+    fetch('/user_friends')
+      .then(r => {
+        if(r.ok) {
+          r.json().then(data => {
+            setUserFriends(data)
           })
         } else {
           r.json().then(data => setErrors(data.errors))
@@ -166,7 +179,7 @@ export const GroupWall = () => {
     <Styles>
       <Container className="content-container" fluid="sm">
         <Row >
-          {userGroups && userGroups.length > 0 ? 
+          { userGroups && userGroups.length > 0 ? 
             <Col className="d-none d-lg-flex">
               <LeftSidebar />
             </Col> 
@@ -220,7 +233,13 @@ export const GroupWall = () => {
               )}
             )}</InfiniteScroll>        
           </Col>
-          <Col ></Col>
+          {userFriends && userFriends.length > 0 ? 
+          <Col className="d-none d-lg-flex">
+            <RightSidebar />
+          </Col> 
+        :
+          <Col></Col>
+        }
         </Row>        
       </Container>
     </Styles>

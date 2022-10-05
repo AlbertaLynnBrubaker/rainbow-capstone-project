@@ -25,7 +25,7 @@ export const UserFriends = () => {
   
 
   if(page === 0){    
-    fetch(`/user_friends?page=0`)
+    fetch(`/friends_list?page=0`)
       .then(r => {
         if(r.ok) {
           r.json().then(data => {

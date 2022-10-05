@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { UserContext } from "../tools/hooks"
+import { UserContext, UserGroupsContext, UserFriendsContext } from "../tools/hooks"
 
 import Styles from "../styles/LoginSignup.style"
 
@@ -11,10 +11,13 @@ import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import { UserFriends } from "./UserFriends"
 
 
 export const Login = () => {
   const { setUser } = useContext(UserContext)
+  const { setUserGroups } = useContext(UserGroupsContext)
+  const { setUserFriends } = useContext(UserFriendsContext)
   const [ loginData, setLoginData ] = useState({
     username: "",
     password: ""
@@ -40,7 +43,9 @@ export const Login = () => {
     })
       .then(r => { if(r.ok) {
         r.json().then(user => {
-          setUser(user)
+          setUser(user.profile)
+          setUserFriends(user.friends)
+          setUserGroups(user.groups)
           navigate('/')
         })
       } else {

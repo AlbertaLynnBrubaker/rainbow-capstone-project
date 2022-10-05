@@ -28,7 +28,7 @@ export const Navigation = ({logoUrl}) => {
             <NavLink to={`/groups`} className='btn-nav' onClick={handleNavClick}><HiUserGroup className='btn-icon'/></NavLink>
             <NavLink to={`/${user.username}`} className='btn-nav' onClick={handleNavClick}><RiProfileFill className='btn-icon'/></NavLink>            
             <NavLink to={`/${user.username}/friends`} className='btn-nav' onClick={handleNavClick}><BsPeopleFill className='btn-icon'/></NavLink>
-            <NavLink to={`/${user.username}/profile`} className='btn-nav' onClick={handleNavClick}><BsPersonCircle className='btn-icon'/></NavLink>
+            {/* <NavLink to={`/${user.username}/profile`} className='btn-nav' onClick={handleNavClick}><BsPersonCircle className='btn-icon'/></NavLink> */}
             <Logout />
           </Container>
         :
@@ -40,7 +40,7 @@ export const Navigation = ({logoUrl}) => {
           </Container>
         }
         {user ? 
-        <Link to={`/${user.username}`} onClick={() => setPage(0)} className="user-banner">
+        <Link to={`/${user.username}/profile`} onClick={() => setPage(0)} className="user-banner">
           <img src={user.avatar_url}  alt="user avatar" className='user-avatar-img'/>
         </Link>
         : null

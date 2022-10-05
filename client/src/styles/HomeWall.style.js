@@ -45,6 +45,13 @@ const Styles = styled.div`
     color: black;
   }
 
+  .user-card {
+    display: flex;
+    align-content: baseline;
+    gap: 15px;
+    padding-bottom: 15px;
+  }
+
   .user-banner {
     display: flex;
     gap: 15px;
@@ -53,6 +60,14 @@ const Styles = styled.div`
     h6 {
       align-self: flex-end;
     }
+  }
+
+  .user-card-img {
+    height: 75px;
+    width: 75px;
+    border: 1px solid #8C72BB;
+    border-radius: 15px;
+    margin-left: 3px;
   }
 
   .user-avatar-img {
