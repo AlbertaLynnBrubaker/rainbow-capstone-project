@@ -38,7 +38,7 @@ export const UserProfile = () => {
   const handleProfileSubmit = (e) => {
     e.preventDefault()
     const data = new FormData()
-
+  
     data.append('user[username]', userData.username)
     data.append('user[email]', userData.email)
     data.append('user[full_name]', userData.full_name)

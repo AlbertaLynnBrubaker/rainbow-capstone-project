@@ -4,24 +4,20 @@ import { Link } from "react-router-dom"
 import { v4 as uuid } from 'uuid'
 
 import { PageContext, UserContext, UserFriendsContext, UserGroupsContext } from "../tools/hooks"
-import { PostCard } from "./PostCard"
 import Styles from '../styles/HomeWall.style'
 
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
 import { LeftSidebar } from "./LeftSidebar"
 import { RightSidebar } from "./RightSidebar"
 
 
 export const GroupList = () => {
-  const { user } = useContext(UserContext)
   const { page, setPage } = useContext(PageContext)
-  const { userGroups, setUserGroups } = useContext(UserGroupsContext)
-  const { userFriends, setUserFriends } = useContext(UserFriendsContext)
+  const { userGroups } = useContext(UserGroupsContext)
+  const { userFriends } = useContext(UserFriendsContext)
   const [ errors, setErrors ] = useState([])
   const [ groups, setGroups ] = useState([1])
   const [ groupsLength, setGroupsLength ] = useState(10)
@@ -37,6 +33,8 @@ export const GroupList = () => {
             setGroupsLength(data.length)
             setPage(1)     
           })        
+        } else {
+          r.json().then(data => setErrors(data.errors))
         }
       })    
   }
@@ -53,6 +51,8 @@ export const GroupList = () => {
           r.json().then(data => {            
             setGroups(groups => groups.concat(data.groups))            
           })        
+        } else {
+          r.json().then(data => setErrors(data.errors))
         }
       })      
     }, 500)
@@ -70,7 +70,7 @@ export const GroupList = () => {
             <Col></Col>
           }
           <Col lg={8} id="scrollable-div" className="groups-list-container" >
-            
+            {errors ? errors.map(e => <section key={uuid()}>{e}</section>) : null}
             <InfiniteScroll dataLength={groups.length}
             next={fetchMore}
             hasMore={hasMore}
