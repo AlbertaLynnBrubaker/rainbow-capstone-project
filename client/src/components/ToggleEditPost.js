@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { v4 as uuid } from 'uuid'
-import { ErrorContext, PageContext, UserContext } from '../tools/hooks'
+import { PageContext, UserContext } from '../tools/hooks'
 
 import Styles from '../styles/Post.style'
 

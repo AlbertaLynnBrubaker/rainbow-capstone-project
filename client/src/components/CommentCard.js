@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { v4 as uuid } from 'uuid'
 import { PageContext, UserContext } from '../tools/hooks'
 import { EditComment } from './EditComment'
 
@@ -26,6 +27,7 @@ export const CommentCard = ({comment, setComments, onDeleteComment}) => {
       .then(() => {
         onDeleteComment(comment.comment.id)
       })
+      
   }
 
   if(isEditComment) {
@@ -43,6 +45,7 @@ export const CommentCard = ({comment, setComments, onDeleteComment}) => {
           <Container className='comment-img-container'>{comment.comment_image_url ? <img src={comment.comment_image_url} alt="comment" className='comment-img' /> : null}</Container>
           {comment.user.id === user.id ?
             <Container className='btn-container'>
+              {errors ? errors.map(e => <section key={uuid()}>{e}</section>) : null}
               {isEditComment ? null: <Button onClick={handleEditComment} className='form-submit'>Edit Comment</Button>}
               <Button onClick={handleDeleteComment} className='form-submit'>Remove Comment</Button>
             </Container>

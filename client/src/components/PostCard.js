@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { v4 as uuid } from 'uuid'
-import { ErrorContext, UserContext } from '../tools/hooks'
+import { UserContext } from '../tools/hooks'
 import { CommentCard } from './CommentCard'
 import { ToggleEditPost } from './ToggleEditPost'
 

@@ -10,7 +10,7 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
 export const EditComment = ({comment, setComments, isEditComment, setIsEditComment, handleDeleteComment}) => {
-  const { user, setUser } = useContext(UserContext)
+  const { user } = useContext(UserContext)
   const { setPage } = useContext(PageContext)
   const [ errors, setErrors ] = useState([])
   const [ commentContent, setCommentContent] = useState(comment.comment.content)

@@ -5,7 +5,7 @@ import { NavLink, Link } from 'react-router-dom'
 
 import Styles from '../styles/Navigation.style'
 import Container from 'react-bootstrap/Container'
-import { BsPersonCircle, BsPeopleFill } from 'react-icons/bs'
+import { BsPeopleFill } from 'react-icons/bs'
 import { HiPencil, HiUserGroup } from 'react-icons/hi'
 import { MdHome, MdLock } from 'react-icons/md'
 import { RiProfileFill } from 'react-icons/ri'

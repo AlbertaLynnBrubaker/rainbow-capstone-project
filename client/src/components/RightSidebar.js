@@ -1,19 +1,16 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { v4 as uuid } from 'uuid'
 import { PageContext, UserContext, UserFriendsContext } from '../tools/hooks'
-import { Logout } from '../tools/hooks'
-import { NavLink, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import Styles from '../styles/RightSidebar.style'
 import Container from 'react-bootstrap/Container'
 import Card from 'react-bootstrap/Card'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
 
 export const RightSidebar = () => {
   const { user } = useContext(UserContext)
   const { setPage } = useContext(PageContext)  
-  const { userFriends, setUserFriends } = useContext(UserFriendsContext)
+  const { userFriends } = useContext(UserFriendsContext)
   
   const friendsMap = userFriends.map( friend => {
     return(
