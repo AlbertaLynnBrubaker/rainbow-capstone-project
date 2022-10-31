@@ -25,7 +25,7 @@ export const Signup = () => {
     data.append('user[password]', e.target.password.value)
     data.append('user[password_confirmation]', e.target.password_confirmation.value)
     data.append('user[full_name]', e.target.full_name.value)
-    if(e.target.avatar.files[0]){data.append('user[avatar]', e.target.avatar.files[0])}
+    // if(e.target.avatar.files[0]){data.append('user[avatar]', e.target.avatar.files[0])}
     submitToAPI(data)
   }
 
@@ -75,10 +75,10 @@ export const Signup = () => {
                   <Form.Label htmlFor="full_name">Full Name</Form.Label>
                 </Form.Group>
                 </Form.Group>
-                <Form.Group className="form-floating">
+                {/* <Form.Group className="form-floating">
                   <Form.Control type="file" name="avatar" placeholder="floating" className="form-file-input"/>
                   <Form.Label htmlFor="avatar">Avatar</Form.Label>
-                </Form.Group>
+                </Form.Group> */}
                 <Button className="form-submit" type="submit">Signup</Button>
               </Form>
             </Card>
