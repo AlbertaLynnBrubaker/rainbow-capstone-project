@@ -13,3 +13,6 @@ root.render(
   
 );
 
+var variable = document.getElementById('happy')
+
+
