@@ -16,10 +16,13 @@
 <br />
 <div align="center">
   <a href="https://github.com/AlbertaLynnBrubaker/rainbow-capstone-project">GitHub</a>
+  <br />
 
 
-<h1 align="center">Rainbow</h1>
-<h4 align="center">An LGBTQ+ Social Media Platform</h4>
+  <img src='./rainbow-logo.png' alt='logo' style='width:120px;' />
+
+  <h1 align="center"><a href='https://www.youtube.com/watch?v=aHeYZvDCQQc' target='_blank'>Rainbow</a></h1>
+  <h4 align="center">An LGBTQ+ Social Media Platform</h4>
     <br />
     <br />
     <br /> 
